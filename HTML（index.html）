@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>栄養＋レシピ提案アプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🍴 栄養管理 & レシピ提案アプリ</h1>
+
+    <form id="food-form">
+        <input type="text" id="food-name" placeholder="食材名（例：にんじん）" required>
+        <input type="number" id="food-weight" placeholder="使用量(g)" required>
+        <button type="submit">追加</button>
+    </form>
+
+    <h2>📝 登録済み食材</h2>
+    <ul id="food-list"></ul>
+
+    <h2>🔥 栄養素合計</h2>
+    <p id="summary">カロリー: 0 kcal｜たんぱく質: 0g｜脂質: 0g｜炭水化物: 0g</p>
+
+    <h2>🍳 おすすめレシピ</h2>
+    <ul id="recipe-list"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
