@@ -6,6 +6,7 @@ const foodData = {
     "ごはん":       { cal: 168, protein: 2.5, fat: 0.3, carb: 37 },
     "キャベツ":     { cal: 23, protein: 1.3, fat: 0.1, carb: 5.2 },
     "ごま油":       { cal: 896, protein: 0, fat: 99.8, carb: 0 }
+    "マジパンプレート":       { cal: 400, protein: 4, fat: 11, carb: 70 }
 };
 
 let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
