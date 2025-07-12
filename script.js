@@ -13,7 +13,7 @@ const foodData = {
   "トマト": { cal: 19, protein: 0.7, fat: 0.1, carb: 4.7 },
   "バナナ": { cal: 93, protein: 1.1, fat: 0.2, carb: 22.5 },
   "りんご": { cal: 54, protein: 0.2, fat: 0.2, carb: 14.6 },
-　"マジパンプレート": { cal: 777, protein: 77 fat: 0.2, carb: 14.6 },
+  // 必要に応じてどんどん追加してOK！
 };
 
 // 合計栄養素
