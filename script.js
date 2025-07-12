@@ -24,6 +24,7 @@ const foodData = {
   "みそ":         { cal: 217, protein: 12.8, fat: 6.0, carb: 26.0 },
   "砂糖":         { cal: 384, protein: 0, fat: 0, carb: 99.4 },
   "塩":           { cal: 0, protein: 0, fat: 0, carb: 0 },
+  "マジパンプレート":       { cal: 777, protein: 555, fat: 1, carb: 77777 },
   "しょうゆ":     { cal: 70, protein: 8.1, fat: 0, carb: 10.1 },
   "サラダ油":     { cal: 921, protein: 0, fat: 100, carb: 0 },
   "バター":       { cal: 745, protein: 0.5, fat: 81.0, carb: 0.2 },
