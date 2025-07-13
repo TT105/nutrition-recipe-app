@@ -121,3 +121,41 @@ function updateSummary() {
   const p = document.getElementById("summary");
   p.textContent = `カロリー: ${total.cal.toFixed(1)} kcal｜たんぱく質: ${total.protein.toFixed(1)}g｜脂質: ${total.fat.toFixed(1)}g｜炭水化物: ${total.carb.toFixed(1)}g`;
 }
+// レシピを読み込んで表示
+fetch("recipes.json")
+  .then((res) => res.json())
+  .then((recipes) => {
+    window.allRecipes = recipes; // グローバルに保存
+    checkRecipes();
+  });
+
+// レシピ判定関数
+function checkRecipes() {
+  if (!window.allRecipes) return;
+
+  const currentIngredients = Array.from(document.querySelectorAll("#food-list li")).map(li => {
+    return li.textContent.split("：")[0];
+  });
+
+  const matched = window.allRecipes.filter(recipe =>
+    recipe.ingredients.every(ing => currentIngredients.includes(ing))
+  );
+
+  const recipeList = document.getElementById("recipe-list");
+  recipeList.innerHTML = "";
+
+  if (matched.length === 0) {
+    recipeList.textContent = "現在の食材では作れるレシピはありません。";
+  } else {
+    matched.forEach(recipe => {
+      const div = document.createElement("div");
+      div.textContent = `🍳 ${recipe.name}`;
+      recipeList.appendChild(div);
+    });
+  }
+}
+
+// 登録されたときにもレシピチェック
+document.getElementById("food-form").addEventListener("submit", function () {
+  setTimeout(checkRecipes, 0);
+});
