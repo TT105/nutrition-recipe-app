@@ -11,7 +11,8 @@
 
     <div class="card">
         <form id="food-form">
-            <input type="text" id="food-name" placeholder="食材名（例：にんじん）" required>
+            <input type="text" id="food-name" list="food-options" placeholder="食材名（例：にんじん）" required>
+            <datalist id="food-options"></datalist>
             <input type="number" id="food-weight" placeholder="使用量(g)" required>
             <button type="submit">追加</button>
         </form>
