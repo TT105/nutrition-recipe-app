@@ -86,76 +86,75 @@ const foodData = {
   
   // ←今後さらに増やす場合、ここにどんどん追加できます
 };
-
 let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
+let addedIngredients = [];
 
-document.getElementById("food-form").addEventListener("submit", function(e) {
-  e.preventDefault();
+document.getElementById("food-form").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  const name = document.getElementById("food-name").value.trim();
-  const weight = parseFloat(document.getElementById("food-weight").value);
+    const name = document.getElementById("food-name").value.trim();
+    const weight = parseFloat(document.getElementById("food-weight").value);
 
-  if (!foodData[name]) {
-    alert("その食材はデータベースにありません。");
-    return;
-  }
+    if (!foodData[name]) {
+        alert("その食材はデータベースにありません。");
+        return;
+    }
 
-  const factor = weight / 100;
-  const food = foodData[name];
+    const factor = weight / 100;
+    const food = foodData[name];
 
-  total.cal += food.cal * factor;
-  total.protein += food.protein * factor;
-  total.fat += food.fat * factor;
-  total.carb += food.carb * factor;
+    total.cal += food.cal * factor;
+    total.protein += food.protein * factor;
+    total.fat += food.fat * factor;
+    total.carb += food.carb * factor;
 
-  const li = document.createElement("li");
-  li.textContent = `${name}：${weight}g`;
-  document.getElementById("food-list").appendChild(li);
+    const li = document.createElement("li");
+    li.textContent = `${name}：${weight}g`;
+    document.getElementById("food-list").appendChild(li);
 
-  updateSummary();
+    addedIngredients.push(name);
+    updateSummary();
+    suggestRecipes();
 
-  document.getElementById("food-form").reset();
+    document.getElementById("food-form").reset();
 });
 
 function updateSummary() {
-  const p = document.getElementById("summary");
-  p.textContent = `カロリー: ${total.cal.toFixed(1)} kcal｜たんぱく質: ${total.protein.toFixed(1)}g｜脂質: ${total.fat.toFixed(1)}g｜炭水化物: ${total.carb.toFixed(1)}g`;
+    const p = document.getElementById("summary");
+    p.textContent = `カロリー: ${total.cal.toFixed(1)} kcal ｜たんぱく質: ${total.protein.toFixed(1)}g ｜脂質: ${total.fat.toFixed(1)}g ｜炭水化物: ${total.carb.toFixed(1)}g`;
 }
-// レシピを読み込んで表示
-fetch("recipes.json")
-  .then((res) => res.json())
-  .then((recipes) => {
-    window.allRecipes = recipes; // グローバルに保存
-    checkRecipes();
-  });
 
-// レシピ判定関数
-function checkRecipes() {
-  if (!window.allRecipes) return;
+function suggestRecipes() {
+    fetch('recipes.json')
+        .then(response => response.json())
+        .then(data => {
+            const matched = data.filter(recipe =>
+                recipe.ingredients.every(ing => addedIngredients.includes(ing))
+            );
 
-  const currentIngredients = Array.from(document.querySelectorAll("#food-list li")).map(li => {
-    return li.textContent.split("：")[0];
-  });
+            displayRecipes(matched);
+        })
+        .catch(error => {
+            console.error("レシピ読み込みエラー:", error);
+        });
+}
 
-  const matched = window.allRecipes.filter(recipe =>
-    recipe.ingredients.every(ing => currentIngredients.includes(ing))
-  );
+function displayRecipes(recipes) {
+    const list = document.getElementById("recipe-list");
+    list.innerHTML = "";
 
-  const recipeList = document.getElementById("recipe-list");
-  recipeList.innerHTML = "";
+    if (recipes.length === 0) {
+        list.innerHTML = "<p>該当するレシピが見つかりませんでした。</p>";
+        return;
+    }
 
-  if (matched.length === 0) {
-    recipeList.textContent = "現在の食材では作れるレシピはありません。";
-  } else {
-    matched.forEach(recipe => {
-      const div = document.createElement("div");
-      div.textContent = `🍳 ${recipe.name}`;
-      recipeList.appendChild(div);
+    const ul = document.createElement("ul");
+
+    recipes.forEach(recipe => {
+        const li = document.createElement("li");
+        li.textContent = `🍽 ${recipe.name}（材料: ${recipe.ingredients.join(", ")}）`;
+        ul.appendChild(li);
     });
-  }
-}
 
-// 登録されたときにもレシピチェック
-document.getElementById("food-form").addEventListener("submit", function () {
-  setTimeout(checkRecipes, 0);
-});
+    list.appendChild(ul);
+}
