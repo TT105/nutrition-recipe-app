@@ -1,3 +1,10 @@
+// オートコンプリート用に datalist を生成
+const datalist = document.getElementById("food-options");
+Object.keys(foodData).forEach(food => {
+  const option = document.createElement("option");
+  option.value = food;
+  datalist.appendChild(option);
+});
 // 食材ごとの栄養データ（100gあたり）
 const foodData = {
     "牛もも肉":     { cal: 183, protein: 20.7, fat: 10.6, carb: 0.3 },
