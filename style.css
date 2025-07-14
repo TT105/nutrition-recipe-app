@@ -1,33 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+
 body {
-    font-family: sans-serif;
-    background-color: #f0f8ff;
-    padding: 30px;
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #fdfdfd;
+    margin: 0;
+    padding: 20px;
+    color: #333;
 }
 
 h1 {
     color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-form input, form button, #suggest-button {
+.card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+form input, form button {
     padding: 10px;
-    margin: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
 }
 
-button {
-    background-color: #3498db;
+form button {
+    background-color: #4CAF50;
     color: white;
     border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+ul#food-list {
+    list-style: none;
+    padding: 0;
+}
+
+ul#food-list li {
+    background-color: #f0f8ff;
+    border-left: 5px solid #4CAF50;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+ul#food-list li button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    font-size: 12px;
     border-radius: 5px;
     cursor: pointer;
 }
-button:hover {
-    background-color: #2980b9;
+
+#summary, #recipe-list {
+    font-size: 18px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    line-height: 1.6;
 }
 
-#recipe-suggestions > div {
-    background: #fff;
-    padding: 10px;
+#recipe-list div {
     margin-top: 10px;
-    border-radius: 6px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-left: 4px solid #3498db;
+    background-color: #eef6fc;
+    border-radius: 8px;
 }
