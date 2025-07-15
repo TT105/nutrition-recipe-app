@@ -15,14 +15,14 @@
       <datalist id="food-options"></datalist>
 
       <div class="weight-control">
-        <input type="number" id="food-weight" value="100" required> g
+        <input type="number" id="food-weight" value="100" min="0">
         <div class="buttons">
-          <button type="button" onclick="adjustWeight(-100)">-100</button>
-          <button type="button" onclick="adjustWeight(-50)">-50</button>
-          <button type="button" onclick="adjustWeight(-10)">-10</button>
-          <button type="button" onclick="adjustWeight(10)">+10</button>
-          <button type="button" onclick="adjustWeight(50)">+50</button>
-          <button type="button" onclick="adjustWeight(100)">+100</button>
+          <button type="button" class="adjust" data-diff="-100">-100</button>
+          <button type="button" class="adjust" data-diff="-50">-50</button>
+          <button type="button" class="adjust" data-diff="-10">-10</button>
+          <button type="button" class="adjust" data-diff="10">+10</button>
+          <button type="button" class="adjust" data-diff="50">+50</button>
+          <button type="button" class="adjust" data-diff="100">+100</button>
         </div>
       </div>
 
