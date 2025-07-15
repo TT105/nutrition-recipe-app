@@ -1,4 +1,4 @@
-// 食材ごとの栄養データ（例：一部）
+// 食材ごとの栄養データ（100gあたり）
 const foodData = {
   "牛もも肉":     { cal: 183, protein: 20.7, fat: 10.6, carb: 0.3 },
  "にんじん":     { cal: 37, protein: 0.6, fat: 0.1, carb: 8.7 },
@@ -83,10 +83,10 @@ const foodData = {
   "アーモンド":   { cal: 579, protein: 21,  fat: 50,  carb: 22 },
   "くるみ":       { cal: 654, protein: 15,  fat: 65,  carb: 14 },
   "ピーナッツ":   { cal: 567, protein: 26,  fat: 49,  carb: 16 }
-  // 必要に応じて追加可能
+  // ... 必要に応じて追加
 };
 
-// オートコンプリート
+// オートコンプリート用 datalist に食材追加
 const datalist = document.getElementById("food-options");
 Object.keys(foodData).forEach(food => {
   const option = document.createElement("option");
@@ -109,6 +109,7 @@ document.getElementById("food-form").addEventListener("submit", function (e) {
 
   const factor = weight / 100;
   const food = foodData[name];
+
   const item = {
     name,
     weight,
@@ -123,32 +124,37 @@ document.getElementById("food-form").addEventListener("submit", function (e) {
   total.fat += item.fat;
   total.carb += item.carb;
 
+  // 現在日時の取得とフォーマット
+  const now = new Date();
+  const timestamp = `${now.getFullYear()}/${(now.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')} ${now
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
   const li = document.createElement("li");
-  li.textContent = `${item.name}：${item.weight}g`;
+  li.textContent = `${item.name}：${item.weight}g（${timestamp}）`;
+  li.style.cursor = "pointer";
   li.title = "クリックで削除";
+
   li.addEventListener("click", function () {
     total.cal -= item.cal;
     total.protein -= item.protein;
     total.fat -= item.fat;
     total.carb -= item.carb;
+
     li.remove();
     updateSummary();
   });
 
   document.getElementById("food-list").appendChild(li);
+
   updateSummary();
   document.getElementById("food-form").reset();
-  document.getElementById("food-weight").value = 100;
 });
 
 function updateSummary() {
   const p = document.getElementById("summary");
   p.textContent = `カロリー: ${total.cal.toFixed(1)} kcal ｜たんぱく質: ${total.protein.toFixed(1)}g ｜脂質: ${total.fat.toFixed(1)}g ｜炭水化物: ${total.carb.toFixed(1)}g`;
-}
-
-function adjustWeight(amount) {
-  const input = document.getElementById("food-weight");
-  let newValue = parseInt(input.value || "0") + amount;
-  if (newValue < 0) newValue = 0;
-  input.value = newValue;
 }
