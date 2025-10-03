@@ -26,6 +26,10 @@
         </div>
       </div>
 
+      <label>賞味期限：
+        <input type="date" id="food-expiry" required>
+      </label>
+
       <button type="submit">追加</button>
     </form>
   </div>
@@ -43,6 +47,11 @@
   <div class="card">
     <h2>🍽 レシピ提案</h2>
     <div id="recipe-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>📜 作ったレシピ履歴</h2>
+    <ul id="recipe-history"></ul>
   </div>
 
   <script src="script.js"></script>
