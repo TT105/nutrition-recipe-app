@@ -5,9 +5,7 @@ body {
   padding: 20px;
 }
 
-h1 {
-  text-align: center;
-}
+h1 { text-align: center; }
 
 .card {
   background: white;
@@ -25,11 +23,9 @@ h1 {
   margin: 10px 0;
 }
 
-.buttons button {
-  margin: 2px;
-}
+.buttons button { margin: 2px; }
 
-#food-list li {
+#food-list li, #recipe-history li {
   list-style: none;
   margin: 5px 0;
   padding: 5px;
