@@ -3,11 +3,62 @@
 // =========================
 const foodData = {
   "牛もも肉": { cal: 183, protein: 20.7, fat: 10.6, carb: 0.3 },
-  "にんじん": { cal: 37, protein: 0.6, fat: 0.1, carb: 8.7 },
-  "たまご": { cal: 155, protein: 13, fat: 11, carb: 1.1 },
-  "鶏むね肉": { cal: 165, protein: 31, fat: 3.6, carb: 0 },
-  "豚肉（ロース）": { cal: 263, protein: 20, fat: 20, carb: 0 },
-  "ごはん": { cal: 168, protein: 2.5, fat: 0.3, carb: 37 }
+"にんじん": { cal: 37, protein: 0.6, fat: 0.1, carb: 8.7 },
+"たまご": { cal: 155, protein: 13, fat: 11, carb: 1.1 },
+"鶏むね肉": { cal: 165, protein: 31, fat: 3.6, carb: 0 },
+"豚肉（ロース）": { cal: 263, protein: 20, fat: 20, carb: 0 },
+"ごはん": { cal: 168, protein: 2.5, fat: 0.3, carb: 37 },
+
+"じゃがいも": { cal: 76, protein: 1.6, fat: 0.1, carb: 17.6 },
+"玉ねぎ": { cal: 37, protein: 1.0, fat: 0.1, carb: 8.8 },
+"ピーマン": { cal: 22, protein: 0.9, fat: 0.2, carb: 5.1 },
+"キャベツ": { cal: 23, protein: 1.3, fat: 0.2, carb: 5.2 },
+"豆腐": { cal: 72, protein: 6.6, fat: 3.5, carb: 1.7 },
+"納豆": { cal: 200, protein: 16.5, fat: 10, carb: 12.1 },
+"鮭": { cal: 133, protein: 22.5, fat: 4.5, carb: 0.1 },
+"まぐろ": { cal: 125, protein: 26, fat: 1.4, carb: 0.2 },
+"えび": { cal: 84, protein: 18.4, fat: 0.6, carb: 0.3 },
+"いか": { cal: 88, protein: 18.1, fat: 1.2, carb: 0.2 },
+"さば": { cal: 202, protein: 20.7, fat: 13.9, carb: 0.3 },
+"サンマ": { cal: 310, protein: 18.5, fat: 25.6, carb: 0.3 },
+"豆乳": { cal: 46, protein: 3.6, fat: 2.0, carb: 3.1 },
+"牛乳": { cal: 67, protein: 3.3, fat: 3.8, carb: 4.8 },
+"ヨーグルト": { cal: 62, protein: 5.0, fat: 3.0, carb: 4.9 },
+"チーズ": { cal: 356, protein: 22.7, fat: 27.4, carb: 1.3 },
+"ベーコン": { cal: 405, protein: 12.5, fat: 38, carb: 1.0 },
+"ウインナー": { cal: 321, protein: 12.2, fat: 28.4, carb: 1.3 },
+"ハム": { cal: 116, protein: 16.5, fat: 4.6, carb: 1.5 },
+
+"パスタ": { cal: 149, protein: 5.0, fat: 0.9, carb: 30.9 },
+"うどん": { cal: 105, protein: 2.6, fat: 0.4, carb: 21.6 },
+"そば": { cal: 132, protein: 4.8, fat: 1.0, carb: 24.0 },
+"食パン": { cal: 264, protein: 9.3, fat: 4.4, carb: 46.7 },
+"バナナ": { cal: 86, protein: 1.1, fat: 0.2, carb: 22.5 },
+"りんご": { cal: 56, protein: 0.2, fat: 0.1, carb: 14.6 },
+"みかん": { cal: 45, protein: 0.6, fat: 0.1, carb: 11.3 },
+"いちご": { cal: 34, protein: 0.9, fat: 0.1, carb: 8.5 },
+"ぶどう": { cal: 60, protein: 0.6, fat: 0.1, carb: 15.7 },
+
+"レタス": { cal: 12, protein: 0.9, fat: 0.1, carb: 2.8 },
+"きゅうり": { cal: 14, protein: 1.0, fat: 0.1, carb: 3.0 },
+"トマト": { cal: 18, protein: 0.7, fat: 0.1, carb: 4.0 },
+"ブロッコリー": { cal: 33, protein: 4.3, fat: 0.5, carb: 5.2 },
+"ほうれん草": { cal: 20, protein: 2.2, fat: 0.4, carb: 3.1 },
+"小松菜": { cal: 14, protein: 1.5, fat: 0.2, carb: 2.4 },
+"もやし": { cal: 30, protein: 3.0, fat: 0.1, carb: 5.7 },
+"なす": { cal: 22, protein: 1.1, fat: 0.1, carb: 5.1 },
+"かぼちゃ": { cal: 66, protein: 1.9, fat: 0.1, carb: 16.0 },
+
+"しいたけ": { cal: 18, protein: 3.0, fat: 0.5, carb: 4.9 },
+"しめじ": { cal: 24, protein: 2.7, fat: 0.5, carb: 4.3 },
+"えのき": { cal: 37, protein: 2.7, fat: 0.2, carb: 7.8 },
+"まいたけ": { cal: 16, protein: 2.0, fat: 0.3, carb: 3.3 },
+"こんにゃく": { cal: 6, protein: 0.2, fat: 0.1, carb: 2.3 },
+
+"豆腐（木綿）": { cal: 72, protein: 6.6, fat: 4.2, carb: 1.6 },
+"豆腐（絹）": { cal: 56, protein: 4.9, fat: 3.0, carb: 2.0 },
+"厚揚げ": { cal: 150, protein: 10.7, fat: 10.5, carb: 4.3 }
+
 };
 
 // =========================
