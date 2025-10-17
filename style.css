@@ -97,16 +97,18 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: linear-gradient(135deg, #58c06a, #469c63);
 }
-
 .weight-control {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: center;  /* ← 中央寄せのポイント */
+  gap: 8px;
 }
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  justify-content: center;  /* ← 横方向を中央寄せ */
+  gap: 6px;
+  width: 100%;
 }
 .adjust {
   background: #f0f0f0;
