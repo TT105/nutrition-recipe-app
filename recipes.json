@@ -1,51 +1,189 @@
-[
-  { "name": "にんじん炒め", "ingredients": ["にんじん", "ごま油"] },
-  { "name": "キャベツの塩昆布和え", "ingredients": ["キャベツ", "塩昆布"] },
-  { "name": "たまご焼き", "ingredients": ["たまご", "砂糖", "しょうゆ"] },
-  { "name": "ごはん", "ingredients": ["米"] },
-  { "name": "オムレツ", "ingredients": ["たまご", "牛乳", "塩", "こしょう"] },
-  { "name": "鶏むね肉のソテー", "ingredients": ["鶏むね肉", "塩", "こしょう"] },
-  { "name": "にんじんしりしり", "ingredients": ["にんじん", "たまご", "ツナ"] },
-  { "name": "キャベツ炒め", "ingredients": ["キャベツ", "しょうゆ", "ごま油"] },
-  { "name": "目玉焼き", "ingredients": ["たまご", "塩", "こしょう"] },
-  { "name": "親子丼", "ingredients": ["鶏むね肉", "たまご", "玉ねぎ", "しょうゆ"] },
-  { "name": "チャーハン", "ingredients": ["ごはん", "たまご", "ねぎ", "しょうゆ"] },
-  { "name": "鶏むねの味噌焼き", "ingredients": ["鶏むね肉", "味噌", "みりん"] },
-  { "name": "卵サラダ", "ingredients": ["たまご", "マヨネーズ"] },
-  { "name": "キャベツの味噌汁", "ingredients": ["キャベツ", "味噌", "だし"] },
-  { "name": "にんじんのきんぴら", "ingredients": ["にんじん", "しょうゆ", "みりん"] },
-  { "name": "焼きキャベツ", "ingredients": ["キャベツ", "オリーブオイル", "塩"] },
-  { "name": "煮卵", "ingredients": ["たまご", "しょうゆ", "みりん"] },
-  { "name": "親子スープ", "ingredients": ["鶏むね肉", "たまご", "ねぎ", "だし"] },
-  { "name": "たまご雑炊", "ingredients": ["ごはん", "たまご", "だし"] },
-  { "name": "照り焼きチキン", "ingredients": ["鶏むね肉", "しょうゆ", "砂糖", "みりん"] },
-  { "name": "野菜炒め", "ingredients": ["にんじん", "キャベツ", "もやし"] },
-  { "name": "卵スープ", "ingredients": ["たまご", "だし", "塩"] },
-  { "name": "ご飯おにぎり", "ingredients": ["ごはん", "塩"] },
-  { "name": "ご飯の味噌汁", "ingredients": ["ごはん", "味噌", "だし"] },
-  { "name": "キャベツサラダ", "ingredients": ["キャベツ", "マヨネーズ", "コーン"] },
-  { "name": "鶏肉の塩焼き", "ingredients": ["鶏むね肉", "塩", "こしょう"] },
-  { "name": "オムライス", "ingredients": ["ごはん", "たまご", "ケチャップ"] },
-  { "name": "にんじんスープ", "ingredients": ["にんじん", "だし", "塩"] },
-  { "name": "味噌キャベツ炒め", "ingredients": ["キャベツ", "味噌", "みりん"] },
-  { "name": "卵の味噌汁", "ingredients": ["たまご", "味噌", "だし"] },
-  { "name": "親子丼（甘口）", "ingredients": ["鶏むね肉", "たまご", "玉ねぎ", "砂糖"] },
-  { "name": "キャベツの漬物", "ingredients": ["キャベツ", "塩"] },
-  { "name": "鶏のからあげ", "ingredients": ["鶏むね肉", "しょうゆ", "にんにく", "片栗粉"] },
-  { "name": "にんじんサラダ", "ingredients": ["にんじん", "ドレッシング"] },
-  { "name": "卵かけごはん", "ingredients": ["ごはん", "たまご", "しょうゆ"] },
-  { "name": "焼きおにぎり", "ingredients": ["ごはん", "しょうゆ"] },
-  { "name": "たまご丼", "ingredients": ["ごはん", "たまご", "だし"] },
-  { "name": "鶏とキャベツの煮物", "ingredients": ["鶏むね肉", "キャベツ", "だし"] },
-  { "name": "にんじんの塩炒め", "ingredients": ["にんじん", "塩", "ごま油"] },
-  { "name": "卵入りラーメン", "ingredients": ["ラーメン", "たまご"] },
-  { "name": "鶏むねのカレー炒め", "ingredients": ["鶏むね肉", "カレー粉", "塩"] },
-  { "name": "キャベツ味噌炒め", "ingredients": ["キャベツ", "味噌", "砂糖"] },
-  { "name": "鶏むねの生姜焼き", "ingredients": ["鶏むね肉", "しょうが", "しょうゆ"] },
-  { "name": "にんじんマリネ", "ingredients": ["にんじん", "酢", "砂糖"] },
-  { "name": "卵のケチャップ炒め", "ingredients": ["たまご", "ケチャップ"] },
-  { "name": "鶏むねのトマト煮", "ingredients": ["鶏むね肉", "トマト", "塩"] },
-  { "name": "ごはんと味噌汁セット", "ingredients": ["ごはん", "味噌", "だし"] },
-  { "name": "キャベツのお好み焼き", "ingredients": ["キャベツ", "たまご", "小麦粉"] },
-  { "name": "にんじんとツナの炒め物", "ingredients": ["にんじん", "ツナ", "しょうゆ"] }
-]
+// --------------------
+// 栄養データ（100gあたり）
+const foodData = {
+  "牛もも肉": { cal: 183, protein: 20.7, fat: 10.6, carb: 0.3 },
+  "にんじん": { cal: 37, protein: 0.6, fat: 0.1, carb: 8.7 },
+  "たまご": { cal: 155, protein: 13, fat: 11, carb: 1.1 },
+  "鶏むね肉": { cal: 165, protein: 31, fat: 3.6, carb: 0 },
+  "豚肉（ロース）": { cal: 263, protein: 20, fat: 20, carb: 0 },
+  "ごはん": { cal: 168, protein: 2.5, fat: 0.3, carb: 37 },
+  "じゃがいも": { cal: 76, protein: 1.6, fat: 0.1, carb: 17.6 },
+  "玉ねぎ": { cal: 37, protein: 1.0, fat: 0.1, carb: 8.8 },
+  "ピーマン": { cal: 22, protein: 0.9, fat: 0.2, carb: 5.1 },
+  "キャベツ": { cal: 23, protein: 1.3, fat: 0.2, carb: 5.2 },
+  "豆腐": { cal: 72, protein: 6.6, fat: 3.5, carb: 1.7 },
+  "納豆": { cal: 200, protein: 16.5, fat: 10, carb: 12.1 },
+  "鮭": { cal: 133, protein: 22.5, fat: 4.5, carb: 0.1 },
+  "まぐろ": { cal: 125, protein: 26, fat: 1.4, carb: 0.2 },
+  "えび": { cal: 84, protein: 18.4, fat: 0.6, carb: 0.3 },
+  "いか": { cal: 88, protein: 18.1, fat: 1.2, carb: 0.2 },
+  "さば": { cal: 202, protein: 20.7, fat: 13.9, carb: 0.3 },
+  "サンマ": { cal: 310, protein: 18.5, fat: 25.6, carb: 0.3 },
+  "豆乳": { cal: 46, protein: 3.6, fat: 2.0, carb: 3.1 },
+  "牛乳": { cal: 67, protein: 3.3, fat: 3.8, carb: 4.8 },
+  "ヨーグルト": { cal: 62, protein: 5.0, fat: 3.0, carb: 4.9 },
+  "チーズ": { cal: 356, protein: 22.7, fat: 27.4, carb: 1.3 },
+  "ベーコン": { cal: 405, protein: 12.5, fat: 38, carb: 1.0 },
+  "ウインナー": { cal: 321, protein: 12.2, fat: 28.4, carb: 1.3 },
+  "ハム": { cal: 116, protein: 16.5, fat: 4.6, carb: 1.5 },
+  "パスタ": { cal: 149, protein: 5.0, fat: 0.9, carb: 30.9 },
+  "うどん": { cal: 105, protein: 2.6, fat: 0.4, carb: 21.6 },
+  "そば": { cal: 132, protein: 4.8, fat: 1.0, carb: 24.0 },
+  "食パン": { cal: 264, protein: 9.3, fat: 4.4, carb: 46.7 },
+  "バナナ": { cal: 86, protein: 1.1, fat: 0.2, carb: 22.5 },
+  "りんご": { cal: 56, protein: 0.2, fat: 0.1, carb: 14.6 },
+  "みかん": { cal: 45, protein: 0.6, fat: 0.1, carb: 11.3 },
+  "いちご": { cal: 34, protein: 0.9, fat: 0.1, carb: 8.5 },
+  "ぶどう": { cal: 60, protein: 0.6, fat: 0.1, carb: 15.7 },
+  "レタス": { cal: 12, protein: 0.9, fat: 0.1, carb: 2.8 },
+  "きゅうり": { cal: 14, protein: 1.0, fat: 0.1, carb: 3.0 },
+  "トマト": { cal: 18, protein: 0.7, fat: 0.1, carb: 4.0 },
+  "ブロッコリー": { cal: 33, protein: 4.3, fat: 0.5, carb: 5.2 },
+  "ほうれん草": { cal: 20, protein: 2.2, fat: 0.4, carb: 3.1 },
+  "小松菜": { cal: 14, protein: 1.5, fat: 0.2, carb: 2.4 },
+  "もやし": { cal: 30, protein: 3.0, fat: 0.1, carb: 5.7 },
+  "なす": { cal: 22, protein: 1.1, fat: 0.1, carb: 5.1 },
+  "かぼちゃ": { cal: 66, protein: 1.9, fat: 0.1, carb: 16.0 },
+  "しいたけ": { cal: 18, protein: 3.0, fat: 0.5, carb: 4.9 },
+  "しめじ": { cal: 24, protein: 2.7, fat: 0.5, carb: 4.3 },
+  "えのき": { cal: 37, protein: 2.7, fat: 0.2, carb: 7.8 },
+  "まいたけ": { cal: 16, protein: 2.0, fat: 0.3, carb: 3.3 },
+  "こんにゃく": { cal: 6, protein: 0.2, fat: 0.1, carb: 2.3 },
+  "豆腐（木綿）": { cal: 72, protein: 6.6, fat: 4.2, carb: 1.6 },
+  "豆腐（絹）": { cal: 56, protein: 4.9, fat: 3.0, carb: 2.0 },
+  "厚揚げ": { cal: 150, protein: 10.7, fat: 10.5, carb: 4.3 }
+};
+
+// --------------------
+// レシピデータ（50品、調理方法なし）
+const recipes = [ /* ← 省略（あなたの50品データをここに貼ってOK） */ ];
+
+// --------------------
+// オートコンプリート設定
+const datalist = document.getElementById("food-options");
+Object.keys(foodData).forEach(food => {
+  const option = document.createElement("option");
+  option.value = food;
+  datalist.appendChild(option);
+});
+
+// --------------------
+// 登録済み食材と合計栄養素
+let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
+
+function updateSummary() {
+  const summary = document.getElementById("summary");
+  summary.textContent =
+    `カロリー: ${total.cal.toFixed(1)} kcal｜たんぱく質: ${total.protein.toFixed(1)}g｜脂質: ${total.fat.toFixed(1)}g｜炭水化物: ${total.carb.toFixed(1)}g`;
+}
+
+// --------------------
+// レシピ履歴
+function loadHistory() {
+  const history = JSON.parse(localStorage.getItem("recipeHistory") || "[]");
+  const ul = document.getElementById("recipe-history");
+  ul.innerHTML = "";
+  history.forEach(r => {
+    const li = document.createElement("li");
+    li.textContent = r;
+    ul.appendChild(li);
+  });
+}
+
+function addHistory(recipeName) {
+  let history = JSON.parse(localStorage.getItem("recipeHistory") || "[]");
+  if (!history.includes(recipeName)) {
+    history.unshift(recipeName);
+    if (history.length > 20) history.pop();
+    localStorage.setItem("recipeHistory", JSON.stringify(history));
+    loadHistory();
+  }
+}
+
+// --------------------
+// レシピ提案（部分一致対応）
+function suggestRecipes(userIngredients) {
+  return recipes
+    .map(r => {
+      const matchCount = r.ingredients.filter(i => userIngredients.includes(i)).length;
+      return { ...r, matchCount };
+    })
+    .filter(r => r.matchCount > 0)
+    .sort((a, b) => b.matchCount - a.matchCount);
+}
+
+function updateRecipes() {
+  const userIngredients = Array.from(document.querySelectorAll("#food-list li"))
+    .map(li => li.textContent.split("：")[0]);
+  const suggested = suggestRecipes(userIngredients);
+  const container = document.getElementById("recipe-list");
+  container.innerHTML = "";
+
+  if (suggested.length === 0) {
+    container.innerHTML = "<p>食材を追加してください</p>";
+    return;
+  }
+
+  suggested.forEach(r => {
+    const div = document.createElement("div");
+    div.textContent = `${r.name}（持っている食材: ${r.matchCount}/${r.ingredients.length}）`;
+    container.appendChild(div);
+    addHistory(r.name);
+  });
+}
+
+// --------------------
+// 食材追加フォーム
+document.getElementById("food-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = document.getElementById("food-name").value.trim();
+  const weight = parseFloat(document.getElementById("food-weight").value);
+  const expiry = document.getElementById("food-expiry").value;
+
+  if (!foodData[name]) return alert("その食材はデータベースにありません");
+  if (isNaN(weight) || weight <= 0) return alert("使用量（g）は正の数で入力してください");
+  if (!expiry) return alert("賞味期限を入力してください");
+
+  const factor = weight / 100;
+  total.cal += foodData[name].cal * factor;
+  total.protein += foodData[name].protein * factor;
+  total.fat += foodData[name].fat * factor;
+  total.carb += foodData[name].carb * factor;
+  updateSummary();
+
+  const li = document.createElement("li");
+  li.textContent = `${name}：${weight}g（賞味期限: ${expiry}）`;
+
+  // 賞味期限が近いものを赤表示
+  const daysLeft = (new Date(expiry) - new Date()) / (1000 * 60 * 60 * 24);
+  if (daysLeft <= 2) li.style.color = "red";
+
+  document.getElementById("food-list").appendChild(li);
+
+  // 食材リスト保存
+  const saved = JSON.parse(localStorage.getItem("foodList") || "[]");
+  saved.push({ name, weight, expiry });
+  localStorage.setItem("foodList", JSON.stringify(saved));
+
+  updateRecipes();
+  document.getElementById("food-form").reset();
+});
+
+// --------------------
+// 重量ボタン調整
+document.querySelectorAll(".adjust").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const input = document.getElementById("food-weight");
+    let value = parseInt(input.value) + parseInt(btn.dataset.diff);
+    if (value < 0) value = 0;
+    input.value = value;
+  });
+});
+
+// --------------------
+// 初期読み込み
+window.addEventListener("load", () => {
+  loadHistory();
+  updateSummary();
+  updateRecipes();
+});
