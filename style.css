@@ -12,6 +12,7 @@ h1 {
   margin-bottom: 25px;
 }
 
+/* カード共通 */
 .card {
   background: #fff;
   border-radius: 16px;
@@ -19,59 +20,87 @@ h1 {
   padding: 20px;
   margin: 15px auto;
   max-width: 600px;
+}
+
+/* タブ */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.tab {
+  border: none;
+  background: #e8e8e8;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
   transition: 0.2s;
 }
-.card:hover { transform: translateY(-2px); }
-
-h2 {
-  font-size: 1.2em;
-  border-left: 6px solid #5cb85c;
-  padding-left: 8px;
+.tab.active {
+  background: #5cb85c;
+  color: #fff;
 }
 
-form { display: flex; flex-direction: column; gap: 10px; }
-
-input, button {
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 1em;
+/* フォーム */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 input[type="text"], input[type="number"], input[type="date"] {
+  width: 100%;
+  padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 8px;
 }
 button[type="submit"] {
-  background-color: #5cb85c;
-  color: white;
+  background: #5cb85c;
+  color: #fff;
+  padding: 10px;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
 }
-button[type="submit"]:hover { background-color: #4cae4c; }
+button[type="submit"]:hover { background: #4cae4c; }
 
 .weight-control { display: flex; flex-direction: column; gap: 6px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 5px; }
-.adjust {
-  background-color: #eee;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 8px;
-  cursor: pointer;
-}
+.adjust { background: #eee; border: none; border-radius: 6px; padding: 6px 8px; cursor: pointer; }
 .adjust:hover { background: #ddd; }
 
-#food-list { list-style: none; padding: 0; }
+/* 食材リスト */
+#food-list {
+  list-style: none;
+  padding: 0;
+}
 #food-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 6px 10px;
   border-bottom: 1px solid #eee;
 }
+.delete-btn {
+  background: #ff6b6b;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.delete-btn:hover { background: #e04b4b; }
 
+/* 栄養合計 */
 #summary {
-  font-weight: bold;
-  background-color: #f1f8f1;
+  background: #f1f8f1;
   border-radius: 8px;
   padding: 10px;
   text-align: center;
+  font-weight: bold;
 }
 
+/* レシピ提案 */
 #recipe-list div {
   background: #f7f7ff;
   border-left: 5px solid #5bc0de;
@@ -80,16 +109,6 @@ button[type="submit"]:hover { background-color: #4cae4c; }
   border-radius: 6px;
 }
 
-#recipe-history {
-  list-style: none;
-  padding: 0;
-}
-#recipe-history li {
-  padding: 5px 8px;
-  border-bottom: 1px dashed #ccc;
-}
-
-@media (max-width: 600px) {
-  body { padding: 10px; }
-  .card { padding: 15px; }
-}
+/* 履歴 */
+#recipe-history { list-style: none; padding: 0; }
+#recipe-history li { border-bottom: 1px dashed #ccc; padding: 5px 8px; }
