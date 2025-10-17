@@ -1,25 +1,17 @@
-/* ------------------------------
-   基本設定
------------------------------- */
 body {
   font-family: 'Noto Sans JP', sans-serif;
   background: #f8f9fb;
   color: #333;
   margin: 0;
   padding: 20px;
-  line-height: 1.6;
 }
 
 h1 {
   text-align: center;
   font-size: 1.8em;
   margin-bottom: 25px;
-  color: #333;
 }
 
-/* ------------------------------
-   カードデザイン
------------------------------- */
 .card {
   background: #fff;
   border-radius: 16px;
@@ -27,109 +19,51 @@ h1 {
   padding: 20px;
   margin: 15px auto;
   max-width: 600px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: 0.2s;
 }
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-}
+.card:hover { transform: translateY(-2px); }
 
 h2 {
   font-size: 1.2em;
-  color: #444;
-  margin-bottom: 10px;
   border-left: 6px solid #5cb85c;
   padding-left: 8px;
 }
 
-/* ------------------------------
-   フォーム部分
------------------------------- */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+form { display: flex; flex-direction: column; gap: 10px; }
 
-input[type="text"],
-input[type="number"],
-input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
+input, button {
   border-radius: 8px;
+  padding: 10px;
   font-size: 1em;
 }
-
+input[type="text"], input[type="number"], input[type="date"] {
+  border: 1px solid #ccc;
+}
 button[type="submit"] {
   background-color: #5cb85c;
   color: white;
-  padding: 10px 0;
   border: none;
-  border-radius: 8px;
-  font-size: 1em;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
+button[type="submit"]:hover { background-color: #4cae4c; }
 
-button[type="submit"]:hover {
-  background-color: #4cae4c;
-}
-
-/* ------------------------------
-   重量調整ボタン
------------------------------- */
-.weight-control {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
+.weight-control { display: flex; flex-direction: column; gap: 6px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 5px; }
 .adjust {
   background-color: #eee;
   border: none;
   border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 0.9em;
+  padding: 6px 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
+.adjust:hover { background: #ddd; }
 
-.adjust:hover {
-  background-color: #ddd;
-}
-
-/* ------------------------------
-   食材リスト
------------------------------- */
-#food-list {
-  list-style: none;
-  padding: 0;
-}
-
+#food-list { list-style: none; padding: 0; }
 #food-list li {
   padding: 6px 10px;
   border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-#food-list li:last-child {
-  border-bottom: none;
-}
-
-/* ------------------------------
-   栄養合計
------------------------------- */
 #summary {
   font-weight: bold;
   background-color: #f1f8f1;
@@ -138,60 +72,24 @@ button[type="submit"]:hover {
   text-align: center;
 }
 
-/* ------------------------------
-   レシピ提案
------------------------------- */
 #recipe-list div {
   background: #f7f7ff;
   border-left: 5px solid #5bc0de;
   padding: 8px 12px;
   margin: 6px 0;
   border-radius: 6px;
-  font-size: 0.95em;
 }
 
-#recipe-list p {
-  text-align: center;
-  color: #888;
-  margin: 0;
-}
-
-/* ------------------------------
-   レシピ履歴
------------------------------- */
 #recipe-history {
   list-style: none;
   padding: 0;
 }
-
 #recipe-history li {
   padding: 5px 8px;
   border-bottom: 1px dashed #ccc;
-  color: #333;
-  font-size: 0.9em;
 }
 
-#recipe-history li:last-child {
-  border-bottom: none;
-}
-
-/* ------------------------------
-   モバイル対応
------------------------------- */
 @media (max-width: 600px) {
-  body {
-    padding: 10px;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  h1 {
-    font-size: 1.5em;
-  }
-
-  button[type="submit"], .adjust {
-    font-size: 0.85em;
-  }
+  body { padding: 10px; }
+  .card { padding: 15px; }
 }
