@@ -580,6 +580,32 @@ document.querySelectorAll(".adjust").forEach(btn => {
 });
 
 // --------------------
+// 🔍 食材検索機能（全カテゴリ対応）
+const searchInput = document.getElementById("food-name");
+const datalist = document.getElementById("food-options");
+
+searchInput.addEventListener("input", (e) => {
+  const value = e.target.value.toLowerCase();
+  datalist.innerHTML = "";
+
+  // すべてのカテゴリを結合
+  const allFoods = Object.assign({}, ...Object.values(foodData));
+
+  // 入力文字を含む食材を検索
+  const results = Object.keys(allFoods).filter(food =>
+    food.toLowerCase().includes(value)
+  );
+
+  // 候補を最大10件まで表示
+  results.slice(0, 10).forEach(food => {
+    const opt = document.createElement("option");
+    opt.value = food;
+    datalist.appendChild(opt);
+  });
+});
+
+
+// --------------------
 // 初期起動
 updateSummary();
 document.getElementById("food-expiry").value = DEFAULT_EXPIRY;
