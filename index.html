@@ -9,6 +9,16 @@
 <body>
   <h1>🥕 栄養管理 ＆ レシピ提案アプリ</h1>
 
+  <!-- カテゴリタブ -->
+  <div class="tabs">
+    <button class="tab active" data-category="all">すべて</button>
+    <button class="tab" data-category="meat">肉類</button>
+    <button class="tab" data-category="fish">魚類</button>
+    <button class="tab" data-category="veg">野菜</button>
+    <button class="tab" data-category="grain">穀類</button>
+    <button class="tab" data-category="other">その他</button>
+  </div>
+
   <div class="card">
     <form id="food-form">
       <input type="text" id="food-name" list="food-options" placeholder="食材名（例：にんじん）" required>
@@ -27,7 +37,7 @@
       </div>
 
       <label>賞味期限：
-        <input type="date" id="food-expiry" required>
+        <input type="date" id="food-expiry" value="2025-10-01" required>
       </label>
 
       <button type="submit">追加</button>
@@ -35,7 +45,7 @@
   </div>
 
   <div class="card">
-    <h2>📋 登録済み食材</h2>
+    <h2>📋 登録済み食材（期限順）</h2>
     <ul id="food-list"></ul>
   </div>
 
