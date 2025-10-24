@@ -659,4 +659,3 @@ searchInput.addEventListener("input", (e) => {
 // 初期起動
 updateSummary();
 document.getElementById("food-expiry").value = DEFAULT_EXPIRY;
-
