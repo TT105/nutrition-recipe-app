@@ -544,14 +544,36 @@ function suggestRecipes(ingredients) {
     .filter(r => r.match > 0)
     .sort((a, b) => b.match - a.match);
 }
-
 function updateRecipes() {
   const ingredients = Array.from(document.querySelectorAll("#food-list li")).map(li => li.dataset.name);
   const result = suggestRecipes(ingredients);
   const box = document.getElementById("recipe-list");
-  box.innerHTML = result.length
-    ? result.map(r => `<div>${r.name}（一致: ${r.match}/${r.ingredients.length}）</div>`).join("")
-    : "<p>食材を追加してください</p>";
+  box.innerHTML = "";
+
+  if (result.length === 0) {
+    box.innerHTML = "<p>食材を追加してください</p>";
+    return;
+  }
+
+  result.forEach(r => {
+    const div = document.createElement("div");
+    div.classList.add("recipe-item");
+    div.innerHTML = `
+      <h3 class="recipe-title" style="cursor:pointer; color:#0077cc;">${r.name}</h3>
+      <p>一致: ${r.match}/${r.ingredients.length}</p>
+      <div class="recipe-ingredients" style="display:none; margin-left:1em; color:#333;">
+        <strong>必要な材料:</strong> ${r.ingredients.join("、 ")}
+      </div>
+    `;
+    box.appendChild(div);
+
+    // --- クリックで材料リストを表示・非表示 ---
+    const title = div.querySelector(".recipe-title");
+    const ingDiv = div.querySelector(".recipe-ingredients");
+    title.addEventListener("click", () => {
+      ingDiv.style.display = ingDiv.style.display === "none" ? "block" : "none";
+    });
+  });
 }
 
 // --------------------
