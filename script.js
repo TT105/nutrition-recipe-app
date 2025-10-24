@@ -485,8 +485,6 @@ const recipes = [
 
 ];
 
-];
-
 // --------------------
 // 合計栄養
 let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
