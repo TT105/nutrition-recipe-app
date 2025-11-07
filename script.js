@@ -683,3 +683,83 @@ searchInput.addEventListener("input", (e) => {
 // 初期起動
 updateSummary();
 document.getElementById("food-expiry").value = DEFAULT_EXPIRY;
+
+// ==== 目安計算用（Mifflin-St Jeor + 活動係数） ====
+
+// 活動係数
+const ACTIVITY_FACTOR = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  very: 1.9,
+};
+
+// 目安値
+let targets = { kcal: 0, P: 0, F: 0, C: 0 };
+
+// 入力から TDEE と P/F/C を算出
+function calcTargets() {
+  const h = parseFloat(document.getElementById('p-height')?.value || 0); // cm
+  const w = parseFloat(document.getElementById('p-weight')?.value || 0); // kg
+  const a = parseFloat(document.getElementById('p-age')?.value || 0);
+  const sex = document.getElementById('p-sex')?.value;
+  const act = document.getElementById('p-activity')?.value;
+
+  if (!h || !w || !a || !sex || !act) return;
+
+  // 基礎代謝（Mifflin-St Jeor）
+  const BMR = sex === 'male'
+    ? (10*w + 6.25*h - 5*a + 5)
+    : (10*w + 6.25*h - 5*a - 161);
+
+  const TDEE = BMR * (ACTIVITY_FACTOR[act] || 1.55);
+
+  // マクロ配分
+  const P_g = 1.6 * w;            // たんぱく質 1.6 g/kg
+  const P_kcal = P_g * 4;
+  const F_kcal = TDEE * 0.25;     // 脂質 25% kcal
+  const F_g = F_kcal / 9;
+  const C_kcal = Math.max(TDEE - (P_kcal + F_kcal), 0); // 残りを炭水化物へ
+  const C_g = C_kcal / 4;
+
+  targets = { kcal: TDEE, P: P_g, F: F_g, C: C_g };
+  renderTargets();
+  renderRemaining();
+}
+
+function renderTargets() {
+  const el = document.getElementById('target-summary');
+  if (!el) return;
+  el.textContent =
+    `目安: カロリー ${targets.kcal.toFixed(0)} kcal / ` +
+    `たんぱく質 ${targets.P.toFixed(1)} g / ` +
+    `脂質 ${targets.F.toFixed(1)} g / ` +
+    `炭水化物 ${targets.C.toFixed(1)} g`;
+}
+
+function renderRemaining() {
+  const el = document.getElementById('remaining-summary');
+  if (!el) return;
+  const remain = {
+    kcal: Math.max(targets.kcal - total.cal, 0),
+    P: Math.max(targets.P - total.protein, 0),
+    F: Math.max(targets.F - total.fat, 0),
+    C: Math.max(targets.C - total.carb, 0),
+  };
+  el.textContent =
+    `残り: カロリー ${remain.kcal.toFixed(0)} kcal / ` +
+    `たんぱく質 ${remain.P.toFixed(1)} g / ` +
+    `脂質 ${remain.F.toFixed(1)} g / ` +
+    `炭水化物 ${remain.C.toFixed(1)} g`;
+}
+
+// 入力変更で即再計算
+['p-height','p-weight','p-age','p-sex','p-activity'].forEach(id=>{
+  const node = document.getElementById(id);
+  if (node) node.addEventListener('input', calcTargets);
+});
+
+// 初期化時に一度計算
+document.addEventListener('DOMContentLoaded', calcTargets);
+
