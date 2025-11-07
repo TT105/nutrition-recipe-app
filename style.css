@@ -207,48 +207,60 @@ button[type="submit"]:hover {
   h1 { font-size: 1.6em; }
   button[type="submit"] { font-size: 0.95em; }
 }
-
-/* === 1日目安カードのレイアウト強化 === */
+/* === 1日目安カードのレイアウト === */
 .personal-card { padding-top: 20px; }
 .personal-card .personal-header{
   display:flex; align-items:baseline; justify-content:space-between; gap:12px;
 }
 .personal-card .hint{ color:#6c8f7d; font-size:.9em; }
-
-/* 入力を綺麗に並べるグリッド */
 .form-grid{
   display:grid;
-  grid-template-columns: repeat(5, minmax(120px, 1fr));
-  gap:12px;
-  margin-top: 8px;
+  grid-template-columns: repeat(5, minmax(120px,1fr));
+  gap:12px; margin-top:8px;
 }
 .form-item{ display:flex; flex-direction:column; gap:6px; color:#2b6a4d; font-weight:600; }
 .form-item--wide{ grid-column: span 2; }
-
-/* 既存スタイルを活かしつつ高さ・余白を統一 */
-#personal-form input, #personal-form select{
-  width:100%; min-height:44px;
-  border:1.5px solid #d1e8d8; border-radius:10px; padding:10px 12px;
-  background:#fdfdfd; font-weight:600;
+#personal-form input,#personal-form select{
+  width:100%; min-height:44px; border:1.5px solid #d1e8d8; border-radius:10px;
+  padding:10px 12px; background:#fdfdfd; font-weight:600;
 }
-#personal-form input:focus, #personal-form select:focus{
+#personal-form input:focus,#personal-form select:focus{
   border-color:#5cb85c; outline:none; box-shadow:0 0 6px rgba(92,184,92,.3);
 }
-
-/* サマリーの見た目（バッジ風） */
 .metrics{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.kpi{
-  background:#f6fff8; border:1.5px solid #a3dcb1;
-  border-radius:12px; padding:10px 12px; font-weight:700; color:#24633f;
-}
+.kpi{ background:#f6fff8; border:1.5px solid #a3dcb1; border-radius:12px;
+  padding:10px 12px; font-weight:700; color:#24633f; }
 .kpi.muted{ background:#f3f8ff; border-color:#cfe2f5; color:#274b65; }
+@media (max-width:900px){ .form-grid{ grid-template-columns:repeat(3,minmax(120px,1fr)); }
+  .form-item--wide{ grid-column: span 3; } }
+@media (max-width:600px){ .form-grid{ grid-template-columns:repeat(2,minmax(120px,1fr)); }
+  .form-item--wide{ grid-column: span 2; } }
 
-/* 画面幅に応じて崩れないように */
-@media (max-width: 900px){
-  .form-grid{ grid-template-columns: repeat(3, minmax(120px, 1fr)); }
-  .form-item--wide{ grid-column: span 3; }
+/* ===== Compact density（全体の余白を圧縮） ===== */
+body.compact { font-size:15px; }
+body.compact h1{ margin:12px 0 16px; font-size:1.5em; }
+body.compact .card{ padding:14px; margin:12px auto; max-width:720px; border-radius:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06); }
+body.compact .tabs{ gap:6px; margin-bottom:12px; }
+body.compact .tab{ padding:6px 10px; border-radius:14px; }
+body.compact form{ gap:8px; }
+body.compact input[type="text"],body.compact input[type="number"],
+body.compact input[type="date"],body.compact select{
+  min-height:36px; padding:6px 10px; border-radius:8px;
 }
-@media (max-width: 600px){
-  .form-grid{ grid-template-columns: repeat(2, minmax(120px, 1fr)); }
-  .form-item--wide{ grid-column: span 2; }
-}
+body.compact .weight-control{ gap:6px; }
+body.compact .buttons{ gap:4px; }
+body.compact .adjust{ padding:6px 8px; min-height:34px; border-radius:6px; }
+body.compact #food-list li{ padding:8px 10px; margin-bottom:4px; border-radius:10px; }
+body.compact #summary{ padding:10px; font-size:.95em; border-radius:8px; }
+body.compact #recipe-list{ gap:8px; }
+body.compact #recipe-list div{ padding:8px 10px; border-radius:8px; }
+body.compact #recipe-history li{ padding:4px 6px; }
+body.compact .personal-card{ padding-top:12px; }
+body.compact .personal-card .personal-header{ gap:8px; }
+body.compact .form-grid{ gap:8px; grid-template-columns:repeat(5,minmax(110px,1fr)); }
+@media (max-width:900px){ body.compact .form-grid{ grid-template-columns:repeat(3,minmax(110px,1fr)); } }
+@media (max-width:600px){ body.compact .form-grid{ grid-template-columns:repeat(2,minmax(110px,1fr)); } }
+body.compact .kpi{ padding:8px 10px; border-radius:10px; }
+body.compact .metrics{ gap:6px; margin-top:8px; }
+body.compact .form-item{ gap:4px; }
