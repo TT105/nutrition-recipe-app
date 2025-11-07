@@ -264,3 +264,39 @@ body.compact .form-grid{ gap:8px; grid-template-columns:repeat(5,minmax(110px,1f
 body.compact .kpi{ padding:8px 10px; border-radius:10px; }
 body.compact .metrics{ gap:6px; margin-top:8px; }
 body.compact .form-item{ gap:4px; }
+
+/* ---- 1日目安フォームの行を4列に固定、アクティビティは全幅 ---- */
+.form-grid--4{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap:10px;
+  align-items:start;
+}
+.form-item{ display:flex; flex-direction:column; gap:4px; margin:0; }
+.form-item--full{ grid-column: 1 / -1; }
+
+#personal-form input,
+#personal-form select{
+  width:100%;
+  min-height:40px;
+  padding:8px 10px;
+  border:1.5px solid #d1e8d8;
+  border-radius:10px;
+  background:#fff;
+  line-height:1.2;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.personal-card{
+  background:#fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+@media (max-width: 900px){
+  .form-grid--4{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+}
+@media (max-width: 600px){
+  .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+}
+
