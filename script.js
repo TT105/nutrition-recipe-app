@@ -675,15 +675,102 @@ searchInput.addEventListener("input", (e) => {
     datalist.appendChild(opt);
   });
 });
-
-
-// --------------------
 // 初期起動
 updateSummary();
 document.getElementById("food-expiry").value = DEFAULT_EXPIRY;
 
-// ページ読み込み時の初期処理
+// ✅ ページ読み込み時に賞味期限を今日に設定する
 document.addEventListener("DOMContentLoaded", () => {
   const today = new Date().toISOString().split("T")[0];
   document.getElementById("food-expiry").value = today;
 });
+
+// ✅ 1日の目安の初期描画
+renderTargets();
+
+/* ========= 1日の必要量：計算ロジック ========= */
+function calcBMR(sex, weight, height, age) {
+  const base = 10 * weight + 6.25 * height - 5 * age;
+  return sex === "male" ? base + 5 : base - 161;
+}
+
+function calcTargets(profile) {
+  const { sex, weight, height, age, activity, p_perkg, fat_pct } = profile;
+  const bmr = calcBMR(sex, weight, height, age);
+  const tdee = bmr * Number(activity);
+
+  const protein_g = p_perkg * weight;
+  const fat_g = (fat_pct / 100) * tdee / 9;
+  const carbs_g = (tdee - (protein_g * 4 + fat_g * 9)) / 4;
+
+  return { tdee, protein_g, fat_g, carbs_g };
+}
+
+function loadProfile() {
+  const raw = localStorage.getItem("nutrition_profile");
+  if (raw) return JSON.parse(raw);
+  return {
+    height: 170, weight: 65, age: 22, sex: "male",
+    activity: "1.55", p_perkg: 1.6, fat_pct: 25
+  };
+}
+function saveProfile(p) {
+  localStorage.setItem("nutrition_profile", JSON.stringify(p));
+}
+
+function pct(val, target) {
+  if (!target || target <= 0) return "0%";
+  return Math.min(100, Math.round((val / target) * 100)) + "%";
+}
+function barHTML(val, target) {
+  const width = target > 0 ? Math.min(100, (val / target) * 100) : 0;
+  return `<div class="progress"><span style="width:${width}%"></span></div>`;
+}
+
+function renderTargets() {
+  const p = loadProfile();
+  document.getElementById("height").value = p.height;
+  document.getElementById("weight").value = p.weight;
+  document.getElementById("age").value = p.age;
+  document.getElementById("sex").value = p.sex;
+  document.getElementById("activity").value = p.activity;
+  document.getElementById("p_perkg").value = p.p_perkg;
+  document.getElementById("fat_pct").value = p.fat_pct;
+
+  const tgt = calcTargets(p);
+  const now = total;
+
+  const html = `
+    <div>目安エネルギー: <strong>${Math.round(tgt.tdee)} kcal</strong></div>
+    ${barHTML(now.cal, tgt.tdee)}
+    <div>タンパク質: <strong>${now.protein.toFixed(1)} / ${tgt.protein_g.toFixed(1)} g</strong> (${pct(now.protein, tgt.protein_g)})</div>
+    ${barHTML(now.protein, tgt.protein_g)}
+    <div>脂質: <strong>${now.fat.toFixed(1)} / ${tgt.fat_g.toFixed(1)} g</strong> (${pct(now.fat, tgt.fat_g)})</div>
+    ${barHTML(now.fat, tgt.fat_g)}
+    <div>炭水化物: <strong>${now.carb.toFixed(1)} / ${tgt.carbs_g.toFixed(1)} g</strong> (${pct(now.carb, tgt.carbs_g)})</div>
+    ${barHTML(now.carb, tgt.carbs_g)}
+  `;
+  document.getElementById("targets").innerHTML = html;
+}
+
+document.getElementById("profile-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const p = {
+    height: parseFloat(document.getElementById("height").value),
+    weight: parseFloat(document.getElementById("weight").value),
+    age: parseInt(document.getElementById("age").value),
+    sex: document.getElementById("sex").value,
+    activity: document.getElementById("activity").value,
+    p_perkg: parseFloat(document.getElementById("p_perkg").value),
+    fat_pct: parseFloat(document.getElementById("fat_pct").value)
+  };
+  saveProfile(p);
+  renderTargets();
+});
+
+// updateSummaryに1行追加
+function updateSummary() {
+  const s = document.getElementById("summary");
+  s.textContent = `カロリー: ${total.cal.toFixed(1)} kcal｜たんぱく質: ${total.protein.toFixed(1)}g｜脂質: ${total.fat.toFixed(1)}g｜炭水化物: ${total.carb.toFixed(1)}g`;
+  if (document.getElementById("targets")) renderTargets(); // ←ここ追加
+}
