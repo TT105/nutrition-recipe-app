@@ -1,3 +1,6 @@
+/* -----------------------------------------
+   🌿 栄養管理＆レシピ提案アプリ（おしゃれ版）
+----------------------------------------- */
 body {
   font-family: 'Noto Sans JP', sans-serif;
   background: linear-gradient(135deg, #f6f9ff, #e9f9f1);
@@ -5,28 +8,223 @@ body {
   margin: 0;
   padding: 20px;
 }
-h1 { text-align: center; color: #2b6a4d; }
+
+h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 30px;
+  color: #2b6a4d;
+  letter-spacing: 1px;
+}
+
+/* 🗂 カテゴリタブ */
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.tab {
+  background: #ffffff;
+  border: 1.5px solid #a4d6b3;
+  border-radius: 20px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.25s;
+  color: #2b6a4d;
+  font-weight: 600;
+}
+.tab:hover { background: #e0f7ea; }
+.tab.active {
+  background: linear-gradient(135deg, #5cb85c, #4fa76e);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* 🧾 カード */
 .card {
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.08);
   padding: 24px;
   margin: 20px auto;
-  max-width: 700px;
+  max-width: 680px;
+  transition: 0.3s ease;
 }
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+/* 兄弟カードの間隔を一定にする */
+.card + .card { margin-top: 16px; }
+
+/* フォーム */
+form { display: flex; flex-direction: column; gap: 12px; }
+input[type="text"], input[type="number"], input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #d1e8d8;
+  border-radius: 10px;
+  font-size: 1em;
+  background: #fdfdfd;
+}
+input:focus {
+  border-color: #5cb85c;
+  outline: none;
+  box-shadow: 0 0 6px rgba(92,184,92,0.3);
+}
+button[type="submit"] {
+  background: linear-gradient(135deg, #5cb85c, #4fa76e);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, #58c06a, #469c63);
+}
+
+/* 重量調整 */
+.weight-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+.adjust {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #555;
+  transition: 0.2s;
+}
+.adjust:hover { background: #d9f5df; }
+
+/* 📋 食材リスト */
+#food-list { list-style: none; padding: 0; }
+#food-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  border-radius: 12px;
+  background: #f9fff9;
+  border-left: 5px solid #a2e4a2;
+  transition: 0.2s;
+}
+#food-list li:hover { background: #effff2; }
+#food-list li.expiring {
+  border-left-color: #ff6b6b;
+  background: #fff5f5;
+}
+.delete-btn {
+  background: #ff6b6b;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.delete-btn:hover { background: #e04b4b; }
+
+/* 🔥 栄養合計 */
 #summary {
   background: #e8fff0;
-  border: 1.5px solid #a3dcb1;
   border-radius: 10px;
   padding: 14px;
   text-align: center;
   font-weight: bold;
+  font-size: 1.05em;
+  color: #24633f;
+  border: 1.5px solid #a3dcb1;
 }
-#targets h3 { color: #2b6a4d; }
-#targets p { margin: 4px 0; }
-button {
-  background: linear-gradient(135deg, #5cb85c, #4fa76e);
-  color: #fff; border: none; padding: 10px 14px;
-  border-radius: 10px; cursor: pointer;
+
+/* 目安枠（表示のみ） */
+.targets {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed #bfe5c9;
+  border-radius: 10px;
+  background: #f7fff9;
 }
-button:hover { filter: brightness(1.1); }
+.targets .muted { color: #6f8c7c; font-size: 0.9em; }
+
+/* 🍽 レシピ提案 */
+#recipe-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+}
+#recipe-list div {
+  background: #ffffff;
+  border-left: 6px solid #5bc0de;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 10px 12px;
+  transition: 0.3s;
+}
+#recipe-list div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+/* レシピ名クリックできる見た目（JSは既存のまま動く） */
+.recipe-title { cursor: pointer; color: #0077cc; }
+
+/* 📜 履歴 */
+#recipe-history { list-style: none; padding: 0; margin: 0; }
+#recipe-history li {
+  border-bottom: 1px dashed #ccc;
+  padding: 6px 8px;
+  color: #555;
+}
+
+/* 🛠 パーソナル設定の見た目（表示のみ） */
+.personal-card details[open] .personal-panel { margin-top: 12px; }
+.personal-summary {
+  display: flex; flex-direction: column; gap: 2px;
+  cursor: pointer; list-style: none;
+}
+.personal-summary::-webkit-details-marker { display: none; }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.field .label { font-size: 0.9em; color: #2b6a4d; }
+.input-with-unit { display: flex; align-items: center; gap: 6px; }
+.input-with-unit .unit {
+  font-size: 0.9em; color: #6f8c7c; background: #eef8f0;
+  padding: 4px 6px; border-radius: 6px;
+}
+.personal-actions { margin-top: 8px; text-align: right; }
+.personal-actions button[disabled] {
+  background: #c7d8cc; color: #fff; border: none; border-radius: 8px;
+  padding: 8px 12px; cursor: not-allowed;
+}
+
+/* 🌙 メディア対応 */
+@media (max-width: 600px) {
+  body { padding: 10px; }
+  .card { padding: 16px; }
+  h1 { font-size: 1.6em; }
+  button[type="submit"] { font-size: 0.95em; }
+}
