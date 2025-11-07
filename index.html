@@ -36,10 +36,10 @@
           <button type="button" class="adjust" data-diff="100">+100</button>
         </div>
       </div>
-      
-<label>賞味期限：
-  <input type="date" id="food-expiry" required>
-</label>
+
+      <label>賞味期限：
+        <input type="date" id="food-expiry" required>
+      </label>
 
       <button type="submit">追加</button>
     </form>
@@ -56,14 +56,14 @@
     <h2>🔥 栄養素合計</h2>
     <p id="summary">カロリー: 0 kcal｜たんぱく質: 0g｜脂質: 0g｜炭水化物: 0g</p>
 
-    <!-- 目安枠（JSで触らない＝表示だけ。不要なら削除OK） -->
+    <!-- 目安枠（表示のみ） -->
     <div id="targets" class="targets">
       <h3>📊 あなたの1日目安（表示のみ）</h3>
       <p class="muted">※ 現在は表示枠のみ。計算は script.js を変更しないため未連動です。</p>
     </div>
-  </div>
+  </div> <!-- ← ここで栄養合計カードを閉じる -->
 
-  <!-- パーソナル設定（別カード・兄弟要素） -->
+  <!-- パーソナル設定（兄弟要素） -->
   <div class="card personal-card">
     <details class="personal">
       <summary class="personal-summary">
@@ -149,16 +149,19 @@
     <ul id="recipe-history"></ul>
   </div>
 
+  <!-- ① 初期賞味期限を“今日”にセット（script.jsより前に実行） -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const expiryInput = document.getElementById("food-expiry");
+      if (expiryInput) {
+        const today = new Date().toISOString().split("T")[0];
+        expiryInput.value = today;
+        expiryInput.setAttribute("min", today); // 過去日を選べないようにする（任意）
+      }
+    });
+  </script>
+
+  <!-- ② 既存ロジック -->
   <script src="script.js"></script>
 </body>
 </html>
-
-<script>
-  // ページ読み込み時に賞味期限を今日に設定
-  document.addEventListener("DOMContentLoaded", () => {
-    const today = new Date().toISOString().split("T")[0];
-    const expiryInput = document.getElementById("food-expiry");
-    if (expiryInput) expiryInput.value = today;
-  });
-</script>
-
