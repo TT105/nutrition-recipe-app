@@ -596,6 +596,7 @@ function recalcTotal() {
     }
   });
   updateSummary();
+  renderRemaining(); 
 }
 
 // --------------------
