@@ -258,3 +258,68 @@ button[type="submit"]:hover {
   background: linear-gradient(135deg, #5cb85c, #4fa76e);
   width: 0%;
 }
+
+/* ===== パーソナル設定 ===== */
+.personal-card { padding: 0; overflow: hidden; }
+
+.personal-summary {
+  display: flex; align-items: baseline; gap: 10px;
+  width: 100%; padding: 16px 20px;
+  background: linear-gradient(135deg, #e9f9f1, #f6fff9);
+  border-bottom: 1px solid #d9efdf;
+  cursor: pointer; list-style: none; user-select: none;
+  font-weight: 700; color: #2b6a4d;
+}
+.personal-summary::-webkit-details-marker { display: none; }
+.personal-summary small { font-weight: 500; color: #679a7e; }
+
+.personal-panel { padding: 18px 20px; background: #fcfffd; }
+
+.form-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 900px) {
+  .form-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field .label { font-size: 0.92rem; color: #2b6a4d; }
+
+.input-with-unit {
+  display: flex; align-items: center; gap: 8px;
+}
+.input-with-unit .unit {
+  padding: 8px 10px;
+  background: #eef8f1;
+  border: 1px solid #d7eadf;
+  border-radius: 8px;
+  font-size: 0.9rem; color: #3a6e54;
+}
+
+/* 統一感のある入力高さ */
+.personal-panel input,
+.personal-panel select {
+  height: 42px; padding: 8px 12px;
+  border: 1.5px solid #d1e8d8; border-radius: 10px;
+  background: #fff; font-size: 1rem;
+}
+.personal-panel input:focus,
+.personal-panel select:focus {
+  border-color: #5cb85c; outline: none;
+  box-shadow: 0 0 0 3px rgba(92,184,92,0.15);
+}
+
+/* ボタン */
+.personal-actions {
+  margin-top: 10px; display: flex; justify-content: flex-end;
+}
+#ps-apply {
+  background: linear-gradient(135deg, #5cb85c, #4fa76e);
+  color: #fff; padding: 10px 14px; border: none;
+  border-radius: 10px; font-weight: 700; cursor: pointer;
+}
+#ps-apply:hover { filter: brightness(1.03); transform: translateY(-1px); }
