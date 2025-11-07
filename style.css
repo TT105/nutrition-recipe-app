@@ -25,6 +25,7 @@ h1 {
   gap: 8px;
   margin-bottom: 20px;
 }
+
 .tab {
   background: #ffffff;
   border: 1.5px solid #a4d6b3;
@@ -35,7 +36,9 @@ h1 {
   color: #2b6a4d;
   font-weight: 600;
 }
-.tab:hover { background: #e0f7ea; }
+.tab:hover {
+  background: #e0f7ea;
+}
 .tab.active {
   background: linear-gradient(135deg, #5cb85c, #4fa76e);
   color: white;
@@ -43,7 +46,7 @@ h1 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-/* 🧾 カード */
+/* 🧾 カード全般 */
 .card {
   background: #fff;
   border-radius: 18px;
@@ -57,12 +60,16 @@ h1 {
   transform: translateY(-2px);
   box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
-/* 兄弟カードの間隔を一定にする */
-.card + .card { margin-top: 16px; }
 
 /* フォーム */
-form { display: flex; flex-direction: column; gap: 12px; }
-input[type="text"], input[type="number"], input[type="date"] {
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+input[type="text"],
+input[type="number"],
+input[type="date"] {
   width: 100%;
   padding: 12px;
   border: 1.5px solid #d1e8d8;
@@ -75,6 +82,7 @@ input:focus {
   outline: none;
   box-shadow: 0 0 6px rgba(92,184,92,0.3);
 }
+
 button[type="submit"] {
   background: linear-gradient(135deg, #5cb85c, #4fa76e);
   color: white;
@@ -89,18 +97,16 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: linear-gradient(135deg, #58c06a, #469c63);
 }
-
-/* 重量調整 */
 .weight-control {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;  /* ← 中央寄せのポイント */
   gap: 8px;
 }
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center;  /* ← 横方向を中央寄せ */
   gap: 6px;
   width: 100%;
 }
@@ -114,15 +120,19 @@ button[type="submit"]:hover {
   color: #555;
   transition: 0.2s;
 }
-.adjust:hover { background: #d9f5df; }
+.adjust:hover {
+  background: #d9f5df;
+}
 
 /* 📋 食材リスト */
-#food-list { list-style: none; padding: 0; }
+#food-list {
+  list-style: none;
+  padding: 0;
+}
 #food-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
   padding: 10px 14px;
   margin-bottom: 6px;
   border-radius: 12px;
@@ -130,7 +140,9 @@ button[type="submit"]:hover {
   border-left: 5px solid #a2e4a2;
   transition: 0.2s;
 }
-#food-list li:hover { background: #effff2; }
+#food-list li:hover {
+  background: #effff2;
+}
 #food-list li.expiring {
   border-left-color: #ff6b6b;
   background: #fff5f5;
@@ -144,7 +156,9 @@ button[type="submit"]:hover {
   cursor: pointer;
   font-weight: bold;
 }
-.delete-btn:hover { background: #e04b4b; }
+.delete-btn:hover {
+  background: #e04b4b;
+}
 
 /* 🔥 栄養合計 */
 #summary {
@@ -157,16 +171,6 @@ button[type="submit"]:hover {
   color: #24633f;
   border: 1.5px solid #a3dcb1;
 }
-
-/* 目安枠（表示のみ） */
-.targets {
-  margin-top: 12px;
-  padding: 12px;
-  border: 1px dashed #bfe5c9;
-  border-radius: 10px;
-  background: #f7fff9;
-}
-.targets .muted { color: #6f8c7c; font-size: 0.9em; }
 
 /* 🍽 レシピ提案 */
 #recipe-list {
@@ -186,39 +190,17 @@ button[type="submit"]:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
-/* レシピ名クリックできる見た目（JSは既存のまま動く） */
-.recipe-title { cursor: pointer; color: #0077cc; }
 
 /* 📜 履歴 */
-#recipe-history { list-style: none; padding: 0; margin: 0; }
+#recipe-history {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 #recipe-history li {
   border-bottom: 1px dashed #ccc;
   padding: 6px 8px;
   color: #555;
-}
-
-/* 🛠 パーソナル設定の見た目（表示のみ） */
-.personal-card details[open] .personal-panel { margin-top: 12px; }
-.personal-summary {
-  display: flex; flex-direction: column; gap: 2px;
-  cursor: pointer; list-style: none;
-}
-.personal-summary::-webkit-details-marker { display: none; }
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
-}
-.field .label { font-size: 0.9em; color: #2b6a4d; }
-.input-with-unit { display: flex; align-items: center; gap: 6px; }
-.input-with-unit .unit {
-  font-size: 0.9em; color: #6f8c7c; background: #eef8f0;
-  padding: 4px 6px; border-radius: 6px;
-}
-.personal-actions { margin-top: 8px; text-align: right; }
-.personal-actions button[disabled] {
-  background: #c7d8cc; color: #fff; border: none; border-radius: 8px;
-  padding: 8px 12px; cursor: not-allowed;
 }
 
 /* 🌙 メディア対応 */
