@@ -60,33 +60,33 @@
     <h2>🎯 あなたの1日目安（自動計算）</h2>
     <small class="hint">数値を変えると自動で更新されます</small>
   </div>
+<form id="personal-form" class="form-grid form-grid--4">
+  <label class="form-item">身長(cm)
+    <input type="number" id="p-height" min="100" max="230" value="170" required>
+  </label>
+  <label class="form-item">体重(kg)
+    <input type="number" id="p-weight" min="30" max="200" value="65" required>
+  </label>
+  <label class="form-item">年齢
+    <input type="number" id="p-age" min="10" max="100" value="46" required>
+  </label>
+  <label class="form-item">性別
+    <select id="p-sex">
+      <option value="male">男性</option>
+      <option value="female" selected>女性</option>
+    </select>
+  </label>
 
-  <form id="personal-form" class="form-grid">
-    <label class="form-item">身長(cm)
-      <input type="number" id="p-height" min="100" max="230" value="170" required>
-    </label>
-    <label class="form-item">体重(kg)
-      <input type="number" id="p-weight" min="30" max="200" value="65" required>
-    </label>
-    <label class="form-item">年齢
-      <input type="number" id="p-age" min="10" max="100" value="" required>
-    </label>
-    <label class="form-item">性別
-      <select id="p-sex">
-        <option value="male">男性</option>
-        <option value="female" selected>女性</option>
-      </select>
-    </label>
-    <label class="form-item form-item--wide">活動量
-      <select id="p-activity">
-        <option value="sedentary">ほとんど運動しない（デスクワーク中心）</option>
-        <option value="light">軽めの運動を時々する（週1〜2回）</option>
-        <option value="moderate" selected>ふつう（週3〜5回の運動）</option>
-        <option value="active">よく動く（毎日運動・立ち仕事など）</option>
-        <option value="very">かなり活動的（重労働・スポーツ選手）</option>
-      </select>
-    </label>
-  </form>
+  <label class="form-item form-item--full">活動量
+    <select id="p-activity">
+      <option value="sedentary">ほとんど運動しない（デスクワーク中心）</option>
+      <option value="light">軽めの運動を時々する（週1〜2回）</option>
+      <option value="moderate" selected>ふつう（週3〜5回の運動）</option>
+      <option value="active">よく動く（毎日運動・立ち仕事など）</option>
+      <option value="very">かなり活動的（重労働・スポーツ選手）</option>
+    </select>
+  </label>
+</form>
 
   <div class="metrics">
     <p id="target-summary" class="kpi">目安: —</p>
