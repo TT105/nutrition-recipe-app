@@ -681,3 +681,9 @@ searchInput.addEventListener("input", (e) => {
 // 初期起動
 updateSummary();
 document.getElementById("food-expiry").value = DEFAULT_EXPIRY;
+
+// ページ読み込み時の初期処理
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("food-expiry").value = today;
+});
