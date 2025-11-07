@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>🥕 栄養管理 ＆ レシピ提案アプリ</h1>
+  <h1> 栄養管理 ＆ レシピ提案アプリ</h1>
 
   <!-- カテゴリタブ -->
   <div class="tabs">
@@ -49,15 +49,58 @@
     <ul id="food-list"></ul>
   </div>
 
-  <div class="card">
-    <h2>🔥 栄養素合計</h2>
-    <p id="summary">カロリー: 0 kcal｜たんぱく質: 0g｜脂質: 0g｜炭水化物: 0g</p>
-  </div>
+ <div class="card">
+  <h2>🔥 栄養素合計</h2>
+  <p id="summary">…</p>
+</div>
 
-  <div class="card">
-    <h2>🍽 レシピ提案</h2>
-    <div id="recipe-list"></div>
-  </div>
+<!-- ▼▼ ここを追加 ▼▼ -->
+<div class="card">
+  <h2>🎯 あなたの1日目安（自動計算）</h2>
+  <form id="personal-form">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
+      <label>身長(cm)
+        <input type="number" id="p-height" min="100" max="230" value="170" required>
+      </label>
+      <label>体重(kg)
+        <input type="number" id="p-weight" min="30" max="200" value="65" required>
+      </label>
+      <label>年齢
+        <input type="number" id="p-age" min="10" max="100" value="22" required>
+      </label>
+      <label>性別
+        <select id="p-sex">
+          <option value="male">男性</option>
+          <option value="female">女性</option>
+        </select>
+      </label>
+      <label>活動量
+        <select id="p-activity">
+         <option value="sedentary">低い（運動習慣がほとんどない）</option>
+<option value="light">やや低い（軽い運動を週1〜2回）</option>
+<option value="moderate" selected>標準（中程度の運動を週3〜5回）</option>
+<option value="active">やや高い（毎日または立ち仕事中心）</option>
+<option value="very">高い（重労働・トレーニング習慣あり）</option>
+
+        </select>
+      </label>
+    </div>
+  </form>
+
+  <p id="target-summary" style="margin-top:10px;font-weight:bold;">
+    目安: カロリー — / たんぱく質 — g / 脂質 — g / 炭水化物 — g
+  </p>
+  <p id="remaining-summary" style="margin-top:6px;">
+    残り: カロリー — / たんぱく質 — g / 脂質 — g / 炭水化物 — g
+  </p>
+</div>
+<!-- ▲▲ 追加ここまで ▲▲ -->
+
+<div class="card">
+  <h2>🍽 レシピ提案</h2>
+  <div id="recipe-list"></div>
+</div>
+
 
   <div class="card">
     <h2>📜 作ったレシピ履歴</h2>
