@@ -9,7 +9,6 @@
 <body>
   <h1>🥕 栄養管理 ＆ レシピ提案アプリ</h1>
 
-  <!-- カテゴリタブ -->
   <div class="tabs">
     <button class="tab active" data-category="all">すべて</button>
     <button class="tab" data-category="meat">肉類</button>
@@ -27,18 +26,16 @@
       <div class="weight-control">
         <input type="number" id="food-weight" value="100" min="0">
         <div class="buttons">
-          <button type="button" class="adjust" data-diff="-100">-100</button>
           <button type="button" class="adjust" data-diff="-50">-50</button>
           <button type="button" class="adjust" data-diff="-10">-10</button>
           <button type="button" class="adjust" data-diff="10">+10</button>
           <button type="button" class="adjust" data-diff="50">+50</button>
-          <button type="button" class="adjust" data-diff="100">+100</button>
         </div>
       </div>
 
-   <label>賞味期限：
-  <input type="date" id="food-expiry" required>
-</label>
+      <label>賞味期限：
+        <input type="date" id="food-expiry" required>
+      </label>
 
       <button type="submit">追加</button>
     </form>
@@ -50,78 +47,55 @@
   </div>
 
   <div class="card">
-  <h2>🔥 栄養素合計</h2>
-  <p id="summary">カロリー: 0 kcal｜たんぱく質: 0g｜脂質: 0g｜炭水化物: 0g</p>
+    <h2>🔥 栄養素合計</h2>
+    <p id="summary">カロリー: 0 kcal｜たんぱく質: 0g｜脂質: 0g｜炭水化物: 0g</p>
 
- <div class="card personal-card">
-  <details class="personal">
-    <summary class="personal-summary">
-      <span>🛠 パーソナル設定</span>
-      <small>身長・体重・年齢・性別・活動量など</small>
-    </summary>
+    <div id="targets">
+      <h3>📊 あなたの1日目安</h3>
+      <p id="tg-tdee"></p>
+      <p id="tg-protein"></p>
+      <p id="tg-fat"></p>
+      <p id="tg-carb"></p>
+    </div>
+  </div>
 
-    <div class="personal-panel">
-      <div class="form-grid">
-        <label class="field">
-          <span class="label">身長</span>
-          <div class="input-with-unit">
-            <input id="ps-height" type="number" min="100" max="230" value="170" />
-            <span class="unit">cm</span>
-          </div>
-        </label>
-
-        <label class="field">
-          <span class="label">体重</span>
-          <div class="input-with-unit">
-            <input id="ps-weight" type="number" min="30" max="200" value="65" />
-            <span class="unit">kg</span>
-          </div>
-        </label>
-
-        <label class="field">
-          <span class="label">年齢</span>
-          <input id="ps-age" type="number" min="10" max="99" value="22" />
-        </label>
-
-        <label class="field">
-          <span class="label">性別</span>
+  <div class="card personal-card">
+    <details>
+      <summary>🛠 パーソナル設定</summary>
+      <div>
+        <label>身長: <input id="ps-height" type="number" value="170"> cm</label>
+        <label>体重: <input id="ps-weight" type="number" value="65"> kg</label>
+        <label>年齢: <input id="ps-age" type="number" value="22"></label>
+        <label>性別:
           <select id="ps-sex">
             <option value="male">男性</option>
             <option value="female">女性</option>
           </select>
         </label>
-
-        <label class="field">
-          <span class="label">活動量</span>
+        <label>活動量:
           <select id="ps-activity">
-            <option value="1.2">ほぼ座り（1.2）</option>
-            <option value="1.375">週1-3回軽め（1.375）</option>
-            <option value="1.55" selected>週3-5回中程度（1.55）</option>
-            <option value="1.725">週6-7回ハード（1.725）</option>
-            <option value="1.9">アスリート級（1.9）</option>
+            <option value="1.2">低い</option>
+            <option value="1.55" selected>普通</option>
+            <option value="1.9">高い</option>
           </select>
         </label>
-
-        <label class="field">
-          <span class="label">タンパク質</span>
-          <div class="input-with-unit">
-            <input id="ps-protein-ppu" type="number" step="0.1" min="0.5" max="3" value="1.6" />
-            <span class="unit">g/kg</span>
-          </div>
-        </label>
-
-        <label class="field">
-          <span class="label">脂質</span>
-          <div class="input-with-unit">
-            <input id="ps-fat-percent" type="number" step="1" min="15" max="40" value="25" />
-            <span class="unit">%kcal</span>
-          </div>
-        </label>
+        <label>タンパク質: <input id="ps-protein-ppu" type="number" value="1.6"> g/kg</label>
+        <label>脂質: <input id="ps-fat-percent" type="number" value="25"> %kcal</label>
+        <button id="ps-apply" type="button">更新</button>
       </div>
+    </details>
+  </div>
 
-      <div class="personal-actions">
-        <button id="ps-apply" type="button">更新して再計算</button>
-      </div>
-    </div>
-  </details>
-</div>
+  <div class="card">
+    <h2>🍽 レシピ提案</h2>
+    <div id="recipe-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>📜 作ったレシピ履歴</h2>
+    <ul id="recipe-history"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
