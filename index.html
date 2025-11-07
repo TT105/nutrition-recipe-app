@@ -5,6 +5,7 @@
   <title>栄養管理 ＆ レシピ提案アプリ</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <h1>🥕 栄養管理 ＆ レシピ提案アプリ</h1>
@@ -51,19 +52,19 @@
     <ul id="food-list"></ul>
   </div>
 
-  <!-- 栄養合計（ここで必ず .card を閉じる） -->
+  <!-- 栄養合計 -->
   <div class="card">
     <h2>🔥 栄養素合計</h2>
     <p id="summary">カロリー: 0 kcal｜たんぱく質: 0g｜脂質: 0g｜炭水化物: 0g</p>
 
-    <!-- 目安枠（表示のみ） -->
+    <!-- 目安（表示のみ。script.js は触らないため未連動） -->
     <div id="targets" class="targets">
       <h3>📊 あなたの1日目安（表示のみ）</h3>
       <p class="muted">※ 現在は表示枠のみ。計算は script.js を変更しないため未連動です。</p>
     </div>
-  </div> <!-- ← ここで栄養合計カードを閉じる -->
+  </div>
 
-  <!-- パーソナル設定（兄弟要素） -->
+  <!-- パーソナル設定（別カード） -->
   <div class="card personal-card">
     <details class="personal">
       <summary class="personal-summary">
@@ -149,19 +150,16 @@
     <ul id="recipe-history"></ul>
   </div>
 
-  <!-- ① 初期賞味期限を“今日”にセット（script.jsより前に実行） -->
+  <!-- 今日の日付をセット（</body> の直前） -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const today = new Date().toISOString().split("T")[0];
       const expiryInput = document.getElementById("food-expiry");
-      if (expiryInput) {
-        const today = new Date().toISOString().split("T")[0];
-        expiryInput.value = today;
-        expiryInput.setAttribute("min", today); // 過去日を選べないようにする（任意）
-      }
+      if (expiryInput) expiryInput.value = today;
     });
   </script>
 
-  <!-- ② 既存ロジック -->
-  <script src="script.js"></script>
+  <!-- script.js 読み込み（キャッシュ回避のため ?v= を付ける） -->
+  <script src="script.js?v=20251108"></script>
 </body>
 </html>
