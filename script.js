@@ -486,24 +486,43 @@ const recipes = [
 { name: "スムージー", ingredients: ["バナナ", "牛乳", "ヨーグルト", "ブルーベリー"] }
 
 ];
-
 // --------------------
 // 合計栄養
 let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
+
+// === カスタム食材（localStorageに永続化） ===
+// 形式: { "食材名": { category:"veg", cal:..., protein:..., fat:..., carb:... }, ... }
+let customFoods = JSON.parse(localStorage.getItem("customFoods") || "{}");
+
+// 既存foodData（index.htmlで定義済み） + カスタム食材を合成して “全食材” を返す
+function computeAllFoods() {
+  const base = Object.assign({}, ...Object.values(foodData));
+  return { ...base, ...customFoods };
+}
 
 // --------------------
 // Datalistをカテゴリに応じて更新
 function updateDatalist(category) {
   const datalist = document.getElementById("food-options");
   datalist.innerHTML = "";
-  const data = category === "all"
-    ? Object.assign({}, ...Object.values(foodData))
-    : foodData[category];
-  Object.keys(data).forEach(food => {
-    const opt = document.createElement("option");
-    opt.value = food;
-    datalist.appendChild(opt);
+
+  const all = computeAllFoods();
+  const entries = Object.entries(all).filter(([name]) => {
+    if (category === "all") return true;
+    // カスタム食材は customFoods 側の category を見る
+    if (customFoods[name]) return customFoods[name].category === category;
+    // 既存のカテゴリに属するか（foodData側）
+    return foodData[category] && foodData[category][name];
   });
+
+  entries
+    .map(([name]) => name)
+    .sort()
+    .forEach(food => {
+      const opt = document.createElement("option");
+      opt.value = food;
+      datalist.appendChild(opt);
+    });
 }
 updateDatalist("all");
 
@@ -525,18 +544,40 @@ function updateSummary() {
 }
 
 // --------------------
-// 食材リスト（期限順ソート）
+// 並び順モード（期限順 or 入力順） ※保存つき
+let sortMode = localStorage.getItem("sortMode") || "expiry";
+
+// 食材リスト（並び替え対応）
 function renderFoodList() {
   const ul = document.getElementById("food-list");
   const items = Array.from(ul.querySelectorAll("li"));
   items.sort((a, b) => {
-    const da = new Date(a.dataset.expiry);
-    const db = new Date(b.dataset.expiry);
-    return da - db;
+    if (sortMode === "input") {
+      // 入力（追加）順：古い→新しい
+      return Number(a.dataset.addedAt || 0) - Number(b.dataset.addedAt || 0);
+    } else {
+      // 期限順：近い→遠い
+      const da = new Date(a.dataset.expiry);
+      const db = new Date(b.dataset.expiry);
+      return da - db;
+    }
   });
   ul.innerHTML = "";
   items.forEach(i => ul.appendChild(i));
 }
+
+// 並び順セレクト（#sort-mode）があればフック
+document.addEventListener("DOMContentLoaded", () => {
+  const sortSelect = document.getElementById("sort-mode");
+  if (sortSelect) {
+    sortSelect.value = sortMode;
+    sortSelect.addEventListener("change", () => {
+      sortMode = sortSelect.value;
+      localStorage.setItem("sortMode", sortMode);
+      renderFoodList();
+    });
+  }
+});
 
 // --------------------
 // レシピ提案
@@ -582,7 +623,7 @@ function updateRecipes() {
 // 栄養再計算
 function recalcTotal() {
   total = { cal: 0, protein: 0, fat: 0, carb: 0 };
-  const allFoods = Object.assign({}, ...Object.values(foodData));
+  const allFoods = computeAllFoods();
   document.querySelectorAll("#food-list li").forEach(li => {
     const name = li.dataset.name;
     const m = li.textContent.match(/(\d+(?:\.\d+)?)g/);
@@ -596,7 +637,7 @@ function recalcTotal() {
     }
   });
   updateSummary();
-  renderRemaining(); 
+  renderRemaining();
 }
 
 // --------------------
@@ -607,7 +648,7 @@ document.getElementById("food-form").addEventListener("submit", e => {
   const weight = parseFloat(document.getElementById("food-weight").value);
   const expiry = document.getElementById("food-expiry").value || DEFAULT_EXPIRY;
 
-  const allFoods = Object.assign({}, ...Object.values(foodData));
+  const allFoods = computeAllFoods();
   if (!allFoods[name]) return alert("その食材はデータベースにありません");
   if (isNaN(weight) || weight <= 0) return alert("重量を正しく入力してください");
 
@@ -622,6 +663,7 @@ document.getElementById("food-form").addEventListener("submit", e => {
   const li = document.createElement("li");
   li.dataset.name = name;
   li.dataset.expiry = expiry;
+  li.dataset.addedAt = Date.now(); // ← 入力順ソート用のタイムスタンプ
   li.innerHTML = `${name}：${weight}g（賞味期限: ${expiry}） <button class="delete-btn">🗑</button>`;
 
   // 期限バッジ表示（近ければ見た目を変更）
@@ -636,7 +678,7 @@ document.getElementById("food-form").addEventListener("submit", e => {
   });
 
   ul.appendChild(li);
-  renderFoodList();
+  renderFoodList();  // 現在の sortMode に従って並べ替え
   updateRecipes();
   e.target.reset();
   // 既定の期限に戻す
@@ -663,8 +705,8 @@ searchInput.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
   datalist.innerHTML = "";
 
-  // すべてのカテゴリを結合
-  const allFoods = Object.assign({}, ...Object.values(foodData));
+  // すべてのカテゴリを結合（カスタム込み）
+  const allFoods = computeAllFoods();
 
   // 入力文字を含む食材を検索
   const results = Object.keys(allFoods).filter(food =>
@@ -678,7 +720,6 @@ searchInput.addEventListener("input", (e) => {
     datalist.appendChild(opt);
   });
 });
-
 
 // --------------------
 // 初期起動
@@ -764,3 +805,37 @@ function renderRemaining() {
 // 初期化時に一度計算
 document.addEventListener('DOMContentLoaded', calcTargets);
 
+// === カスタム食材フォーム処理（index.html にフォームがある場合のみ動作） ===
+const cfForm = document.getElementById("custom-food-form");
+if (cfForm) {
+  cfForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name  = document.getElementById("cf-name").value.trim();
+    const category = document.getElementById("cf-category").value;
+    const cal   = parseFloat(document.getElementById("cf-cal").value);
+    const pro   = parseFloat(document.getElementById("cf-pro").value);
+    const fat   = parseFloat(document.getElementById("cf-fat").value);
+    const carb  = parseFloat(document.getElementById("cf-carb").value);
+
+    if (!name) return alert("食材名を入力してください");
+    if ([cal, pro, fat, carb].some(v => isNaN(v) || v < 0)) {
+      return alert("栄養は0以上の数値で入力してください（100gあたり）");
+    }
+
+    // 同名の既存食材と衝突を禁止（上書き許可にするならこの分岐を調整）
+    const all = computeAllFoods();
+    if (all[name] && !customFoods[name]) {
+      return alert("同名の食材が既にあります（別名にしてください）");
+    }
+
+    customFoods[name] = { category, cal, protein: pro, fat, carb };
+    localStorage.setItem("customFoods", JSON.stringify(customFoods));
+
+    // 現在のタブに合わせて候補を更新
+    const activeTab = document.querySelector(".tab.active")?.dataset.category || "all";
+    updateDatalist(activeTab);
+
+    alert(`「${name}」を追加しました！候補から選べます。`);
+    cfForm.reset();
+  });
+}
