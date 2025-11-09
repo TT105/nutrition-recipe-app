@@ -353,4 +353,13 @@ body.compact .form-item{ gap:4px; }
   .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
 }
 
+/* 並び替えコントロール */
+.list-header{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+}
+.sort-control select{
+  min-height:34px; padding:4px 10px;
+  border:1.4px solid #d1e8d8; border-radius:8px; background:#fff;
+}
+
 
