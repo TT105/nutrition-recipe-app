@@ -46,9 +46,18 @@
   </div>
 
   <div class="card">
-    <h2>📋 登録済み食材（期限順）</h2>
-    <ul id="food-list"></ul>
+  <div class="list-header">
+    <h2>📋 登録済み食材</h2>
+    <label class="sort-control">
+      並び順：
+      <select id="sort-mode">
+        <option value="expiry" selected>期限が近い順</option>
+        <option value="input">入力した順</option>
+      </select>
+    </label>
   </div>
+  <ul id="food-list"></ul>
+</div>
 
  <div class="card">
   <h2>🔥 栄養素合計</h2>
