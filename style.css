@@ -300,3 +300,57 @@ body.compact .form-item{ gap:4px; }
   .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
 }
 
+/* === 1日目安フォーム：完全整列パック === */
+.form-grid--4{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap:12px;                 /* 枠どうしの重なり見えを防ぐ */
+  align-items:end;          /* 底辺でそろえる */
+  margin-bottom:10px;
+}
+.form-item{ display:flex; flex-direction:column; gap:6px; }
+.form-item--full{ grid-column:1 / -1; }     /* 活動量は1行フル幅 */
+
+/* 入力の高さ・線・内側余白を統一（selectのズレも解消） */
+#personal-form input,
+#personal-form select{
+  width:100%;
+  height:44px;              /* ← 高さ固定で完全にそろう */
+  padding:8px 12px;
+  border:1.6px solid #c7e1cf;
+  border-radius:10px;
+  background:#fff;
+  font-size:0.95em;
+  line-height:1.4;
+  box-sizing:border-box;
+}
+
+/* ブラウザ差異吸収：selectのネイティブ装飾を無効化 */
+#personal-form select{
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  background-color:#fff;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'><path d='M2 2l6 6 6-6' fill='none' stroke='%23688f79' stroke-width='2' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;
+  background-position: right 10px center;
+  padding-right:34px;       /* 右側に▼スペース */
+}
+
+/* カードの背景と影を軽く（境界が溶けないよう白固定） */
+.personal-card{ background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.06); padding:16px; }
+
+/* ヘッダーのヒント位置（右上に固定） */
+.personal-header{ display:flex; justify-content:space-between; align-items:baseline; }
+.personal-header .hint{ color:#6c8f7d; font-size:.9em; }
+
+/* レスポンシブ：幅が狭い時は3列→2列に自動で折り返し */
+@media (max-width: 900px){
+  .form-grid--4{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+}
+@media (max-width: 600px){
+  .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+}
+
+
