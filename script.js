@@ -1,198 +1,429 @@
-/* === Base === */
-body {
-  font-family: 'Noto Sans JP', sans-serif;
-  background: linear-gradient(135deg, #f6f9ff, #e9f9f1);
-  color: #333;
-  margin: 0;
-  padding: 20px;
+// ==== 栄養管理＆レシピ提案アプリ（完成版） ====
+
+// 1) 既定の賞味期限：常に「今日 + 7日」
+const DEFAULT_EXPIRY = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+  .toISOString()
+  .slice(0, 10);
+
+// 2) 作ったレシピ履歴（localStorage 永続化）
+let recipeHistory = JSON.parse(localStorage.getItem("recipeHistory") || "[]");
+
+function renderHistory() {
+  const ul = document.getElementById("recipe-history");
+  if (!ul) return;
+  ul.innerHTML = "";
+  recipeHistory.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = `${item.date}｜${item.name}`;
+    ul.appendChild(li);
+  });
 }
 
-h1 {
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 30px;
-  color: #2b6a4d;
-  letter-spacing: 1px;
+function addHistoryEntry(name) {
+  const now = new Date();
+  const date =
+    `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(
+      now.getDate()
+    ).padStart(2, "0")} ` +
+    `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+  recipeHistory.unshift({ name, date });
+  recipeHistory = recipeHistory.slice(0, 100); // 最大100件
+  localStorage.setItem("recipeHistory", JSON.stringify(recipeHistory));
+  renderHistory();
 }
 
-/* 🗂 カテゴリタブ */
-.tabs {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-.tab {
-  background: #ffffff;
-  border: 1.5px solid #a4d6b3;
-  border-radius: 20px;
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: 0.25s;
-  color: #2b6a4d;
-  font-weight: 600;
-}
-.tab:hover { background: #e0f7ea; }
-.tab.active {
-  background: linear-gradient(135deg, #5cb85c, #4fa76e);
-  color: white;
-  border: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+// 3) 食材データ（カテゴリ構造）※最小だけ入れてます。自由に増やしてください。
+const foodData = {
+  meat: {
+    "牛もも肉": { cal: 140, protein: 19, fat: 6, carb: 0.1 },
+  },
+  fish: {
+    "鮭": { cal: 100, protein: 20, fat: 2, carb: 0.1 },
+  },
+  veg: {
+    "玉ねぎ": { cal: 20, protein: 1.0, fat: 0.2, carb: 4 },
+    "にんじん": { cal: 15, protein: 0.8, fat: 0.1, carb: 3 },
+  },
+  grain: {
+    "ごはん": { cal: 110, protein: 3, fat: 0.5, carb: 22 },
+  },
+  other: {
+    "こしょう": { cal: 0, protein: 0, fat: 0, carb: 0 },
+    "しょうゆ": { cal: 60, protein: 5, fat: 0.1, carb: 5 },
+    "みりん": { cal: 230, protein: 0, fat: 0, carb: 50 },
+  },
+};
+
+// 4) レシピデータ（最小）※自由に増やしてください
+const recipes = [
+  { name: "牛丼", ingredients: ["牛もも肉", "玉ねぎ", "ごはん", "しょうゆ", "みりん"] },
+  { name: "焼き鮭定食", ingredients: ["鮭", "ごはん", "しょうゆ"] },
+  { name: "にんじんサラダ", ingredients: ["にんじん", "しょうゆ"] },
+];
+
+// 5) 合計栄養
+let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
+
+// 6) カスタム食材（localStorageに永続化）
+let customFoods = JSON.parse(localStorage.getItem("customFoods") || "{}");
+
+// 既存 + カスタムを合成して“全食材”を返す
+function computeAllFoods() {
+  const base = Object.assign({}, ...Object.values(foodData));
+  return { ...base, ...customFoods };
 }
 
-/* 🧾 カード */
-.card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-  padding: 24px;
-  margin: 20px auto;
-  max-width: 720px;
-  transition: 0.3s ease;
-}
-.card:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,0,0,0.12); }
+// 7) Datalist をカテゴリに応じて更新
+function updateDatalist(category) {
+  const datalist = document.getElementById("food-options");
+  if (!datalist) return;
+  datalist.innerHTML = "";
 
-/* フォーム・入力 */
-form { display: flex; flex-direction: column; gap: 12px; }
-input[type="text"], input[type="number"], input[type="date"], select {
-  width: 100%;
-  padding: 12px;
-  border: 1.5px solid #d1e8d8;
-  border-radius: 10px;
-  font-size: 1em;
-  background: #fdfdfd;
-  box-sizing: border-box;
-}
-input:focus, select:focus {
-  border-color: #5cb85c;
-  outline: none;
-  box-shadow: 0 0 6px rgba(92,184,92,0.3);
-}
-button[type="submit"] {
-  background: linear-gradient(135deg, #5cb85c, #4fa76e);
-  color: white;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-button[type="submit"]:hover { background: linear-gradient(135deg, #58c06a, #469c63); }
+  const all = computeAllFoods();
+  const entries = Object.entries(all).filter(([name]) => {
+    if (category === "all") return true;
+    // カスタムは customFoods の category を見る
+    if (customFoods[name]) return customFoods[name].category === category;
+    // 既存カテゴリ（foodData側）
+    return foodData[category] && foodData[category][name];
+  });
 
-.weight-control { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; width: 100%; }
-.adjust {
-  background: #f0f0f0; border: none; border-radius: 8px; padding: 8px 10px;
-  cursor: pointer; font-weight: bold; color: #555; transition: 0.2s;
+  entries
+    .map(([name]) => name)
+    .sort()
+    .forEach((food) => {
+      const opt = document.createElement("option");
+      opt.value = food;
+      datalist.appendChild(opt);
+    });
 }
-.adjust:hover { background: #d9f5df; }
+updateDatalist("all");
 
-/* 📋 食材リスト */
-#food-list { list-style: none; padding: 0; }
-#food-list li {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 14px; margin-bottom: 6px; border-radius: 12px;
-  background: #f9fff9; border-left: 5px solid #a2e4a2; transition: 0.2s;
-}
-#food-list li:hover { background: #effff2; }
-#food-list li.expiring { border-left-color: #ff6b6b; background: #fff5f5; }
-.delete-btn {
-  background: #ff6b6b; border: none; color: #fff; border-radius: 8px;
-  padding: 5px 8px; cursor: pointer; font-weight: bold;
-}
-.delete-btn:hover { background: #e04b4b; }
+// 8) カテゴリタブ切替
+document.querySelectorAll(".tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+    updateDatalist(tab.dataset.category);
+  });
+});
 
-/* 🔥 栄養合計 */
-#summary {
-  background: #e8fff0; border-radius: 10px; padding: 14px; text-align: center;
-  font-weight: bold; font-size: 1.05em; color: #24633f; border: 1.5px solid #a3dcb1;
+// 9) 合計表示更新
+function updateSummary() {
+  const s = document.getElementById("summary");
+  if (!s) return;
+  s.textContent =
+    `カロリー: ${total.cal.toFixed(1)} kcal｜` +
+    `たんぱく質: ${total.protein.toFixed(1)}g｜` +
+    `脂質: ${total.fat.toFixed(1)}g｜` +
+    `炭水化物: ${total.carb.toFixed(1)}g`;
 }
 
-/* 🍽 レシピ提案 */
-#recipe-list {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 12px;
-}
-#recipe-list div {
-  background: #ffffff; border-left: 6px solid #5bc0de; border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 10px 12px; transition: 0.3s;
-}
-#recipe-list div:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+// 10) 並び順（期限順/入力順）保持
+let sortMode = localStorage.getItem("sortMode") || "expiry";
 
-/* 📜 履歴 */
-#recipe-history { list-style: none; padding: 0; margin: 0; }
-#recipe-history li { border-bottom: 1px dashed #ccc; padding: 6px 8px; color: #555; }
-
-/* 並び替えコントロール */
-.list-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
-.sort-control select {
-  min-height:34px; padding:4px 10px; border:1.4px solid #d1e8d8; border-radius:8px; background:#fff;
-}
-
-/* === 1日目安カード（完全整列） === */
-.personal-card { background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.06); padding:16px; }
-.personal-header { display:flex; justify-content:space-between; align-items:baseline; }
-.personal-header .hint { color:#6c8f7d; font-size:.9em; }
-
-.form-grid--4 {
-  display:grid;
-  grid-template-columns: repeat(4, minmax(150px, 1fr));
-  gap:12px;
-  align-items:end; /* 底で揃える */
-  margin-bottom:10px;
-}
-.form-item { display:flex; flex-direction:column; gap:6px; }
-.form-item--full { grid-column: 1 / -1; }
-
-#personal-form input, #personal-form select {
-  width:100%; height:44px; padding:8px 12px;
-  border:1.6px solid #c7e1cf; border-radius:10px;
-  background:#fff; font-size:0.95em; line-height:1.4; box-sizing:border-box;
-}
-#personal-form select {
-  -webkit-appearance:none; -moz-appearance:none; appearance:none; background-color:#fff;
-  background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'><path d='M2 2l6 6 6-6' fill='none' stroke='%23688f79' stroke-width='2' stroke-linecap='round'/></svg>");
-  background-repeat:no-repeat; background-position: right 10px center; padding-right:34px;
-}
-.metrics { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.kpi { background:#f6fff8; border:1.5px solid #a3dcb1; border-radius:12px; padding:10px 12px; font-weight:700; color:#24633f; }
-.kpi.muted { background:#f3f8ff; border-color:#cfe2f5; color:#274b65; }
-
-/* 🌙 メディア対応 */
-@media (max-width: 900px){
-  .form-grid--4{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
-}
-@media (max-width: 600px){
-  .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+// 食材リストの並べ替え
+function renderFoodList() {
+  const ul = document.getElementById("food-list");
+  if (!ul) return;
+  const items = Array.from(ul.querySelectorAll("li"));
+  items.sort((a, b) => {
+    if (sortMode === "input") {
+      return Number(a.dataset.addedAt || 0) - Number(b.dataset.addedAt || 0);
+    } else {
+      const da = new Date(a.dataset.expiry);
+      const db = new Date(b.dataset.expiry);
+      return da - db;
+    }
+  });
+  ul.innerHTML = "";
+  items.forEach((i) => ul.appendChild(i));
 }
 
-/* ===== Compact density（余白圧縮） ===== */
-body.compact { font-size:15px; }
-body.compact h1{ margin:12px 0 16px; font-size:1.5em; }
-body.compact .card{ padding:14px; margin:12px auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
-body.compact .tabs{ gap:6px; margin-bottom:12px; }
-body.compact .tab{ padding:6px 10px; border-radius:14px; }
-body.compact form{ gap:8px; }
-body.compact input[type="text"], body.compact input[type="number"], body.compact input[type="date"], body.compact select{
-  min-height:36px; padding:6px 10px; border-radius:8px;
+// 並び順セレクト連携
+document.addEventListener("DOMContentLoaded", () => {
+  const sortSelect = document.getElementById("sort-mode");
+  if (sortSelect) {
+    sortSelect.value = sortMode;
+    sortSelect.addEventListener("change", () => {
+      sortMode = sortSelect.value;
+      localStorage.setItem("sortMode", sortMode);
+      renderFoodList();
+    });
+  }
+});
+
+// 11) レシピ提案
+function suggestRecipes(ingredients) {
+  return recipes
+    .map((r) => ({ ...r, match: r.ingredients.filter((i) => ingredients.includes(i)).length }))
+    .filter((r) => r.match > 0)
+    .sort((a, b) => b.match - a.match);
 }
-body.compact .weight-control{ gap:6px; }
-body.compact .buttons{ gap:4px; }
-body.compact .adjust{ padding:6px 8px; min-height:34px; border-radius:6px; }
-body.compact #food-list li{ padding:8px 10px; margin-bottom:4px; border-radius:10px; }
-body.compact #summary{ padding:10px; font-size:.95em; border-radius:8px; }
-body.compact #recipe-list{ gap:8px; }
-body.compact #recipe-list div{ padding:8px 10px; border-radius:8px; }
-body.compact #recipe-history li{ padding:4px 6px; }
-body.compact .personal-card{ padding-top:12px; }
-body.compact .personal-card .personal-header{ gap:8px; }
-body.compact .form-grid{ gap:8px; grid-template-columns:repeat(5,minmax(110px,1fr)); }
-@media (max-width:900px){ body.compact .form-grid{ grid-template-columns:repeat(3,minmax(110px,1fr)); } }
-@media (max-width:600px){ body.compact .form-grid{ grid-template-columns:repeat(2,minmax(110px,1fr)); } }
-body.compact .kpi{ padding:8px 10px; border-radius:10px; }
-body.compact .metrics{ gap:6px; margin-top:8px; }
-body.compact .form-item{ gap:4px; }
+
+function updateRecipes() {
+  const ingredients = Array.from(document.querySelectorAll("#food-list li")).map(
+    (li) => li.dataset.name
+  );
+  const box = document.getElementById("recipe-list");
+  if (!box) return;
+  const result = suggestRecipes(ingredients);
+
+  box.innerHTML = "";
+  if (result.length === 0) {
+    box.innerHTML = "<p>食材を追加してください</p>";
+    return;
+  }
+
+  result.forEach((r) => {
+    const div = document.createElement("div");
+    div.classList.add("recipe-item");
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+        <h3 class="recipe-title" style="cursor:pointer; color:#0077cc; margin:0;">${r.name}</h3>
+        <button class="cook-btn" style="min-width:88px; padding:6px 10px; border:none; border-radius:8px; background:#5cb85c; color:#fff; cursor:pointer; font-weight:700;">✅ 作った</button>
+      </div>
+      <p style="margin:.3em 0 .4em 0;">一致: ${r.match}/${r.ingredients.length}</p>
+      <div class="recipe-ingredients" style="display:none; margin-left:1em; color:#333;">
+        <strong>必要な材料:</strong> ${r.ingredients.join("、 ")}
+      </div>
+    `;
+
+    // ✅ 作った → 履歴に追加
+    const cookBtn = div.querySelector(".cook-btn");
+    cookBtn.addEventListener("click", () => {
+      addHistoryEntry(r.name);
+      cookBtn.textContent = "✅ 追加済み";
+      cookBtn.disabled = true;
+      cookBtn.style.opacity = "0.7";
+    });
+
+    // 材料の開閉
+    const title = div.querySelector(".recipe-title");
+    const ingDiv = div.querySelector(".recipe-ingredients");
+    title.addEventListener("click", () => {
+      ingDiv.style.display = ingDiv.style.display === "none" ? "block" : "none";
+    });
+
+    box.appendChild(div);
+  });
+}
+
+// 12) 栄養再計算
+function recalcTotal() {
+  total = { cal: 0, protein: 0, fat: 0, carb: 0 };
+  const allFoods = computeAllFoods();
+  document.querySelectorAll("#food-list li").forEach((li) => {
+    const name = li.dataset.name;
+    const m = li.textContent.match(/(\d+(?:\.\d+)?)g/);
+    const weight = m ? parseFloat(m[1]) : 0;
+    if (allFoods[name]) {
+      const f = weight / 100;
+      total.cal += allFoods[name].cal * f;
+      total.protein += allFoods[name].protein * f;
+      total.fat += allFoods[name].fat * f;
+      total.carb += allFoods[name].carb * f;
+    }
+  });
+  updateSummary();
+  renderRemaining();
+}
+
+// 13) 食材追加フォーム
+const foodForm = document.getElementById("food-form");
+if (foodForm) {
+  foodForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("food-name").value.trim();
+    const weight = parseFloat(document.getElementById("food-weight").value);
+    const expiry = document.getElementById("food-expiry").value || DEFAULT_EXPIRY;
+
+    const allFoods = computeAllFoods();
+    if (!allFoods[name]) return alert("その食材はデータベースにありません");
+    if (isNaN(weight) || weight <= 0) return alert("重量を正しく入力してください");
+
+    // 合計へ加算
+    const f = weight / 100;
+    total.cal += allFoods[name].cal * f;
+    total.protein += allFoods[name].protein * f;
+    total.fat += allFoods[name].fat * f;
+    total.carb += allFoods[name].carb * f;
+    updateSummary();
+
+    // リストへ追加
+    const ul = document.getElementById("food-list");
+    const li = document.createElement("li");
+    li.dataset.name = name;
+    li.dataset.expiry = expiry;
+    li.dataset.addedAt = Date.now(); // 入力順用タイムスタンプ
+    li.innerHTML = `${name}：${weight}g（賞味期限: ${expiry}） <button class="delete-btn">🗑</button>`;
+
+    // 期限が近い場合の見た目
+    const diff = (new Date(expiry) - new Date()) / (1000 * 60 * 60 * 24);
+    if (diff <= 2) li.classList.add("expiring");
+
+    // 削除
+    li.querySelector(".delete-btn").addEventListener("click", () => {
+      li.remove();
+      updateRecipes();
+      recalcTotal();
+    });
+
+    ul.appendChild(li);
+    renderFoodList(); // 現行の sortMode に従って並べ替え
+    updateRecipes();
+
+    e.target.reset();
+    document.getElementById("food-expiry").value = DEFAULT_EXPIRY; // 期限をデフォルトに戻す
+  });
+}
+
+// 14) 重量調整ボタン
+document.querySelectorAll(".adjust").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const input = document.getElementById("food-weight");
+    if (!input) return;
+    let v = parseInt(input.value || "0") + parseInt(btn.dataset.diff);
+    if (v < 0) v = 0;
+    input.value = v;
+  });
+});
+
+// 15) 🔍 食材検索（全カテゴリ + カスタム込み）
+const searchInput = document.getElementById("food-name");
+const datalist = document.getElementById("food-options");
+if (searchInput && datalist) {
+  searchInput.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase();
+    datalist.innerHTML = "";
+    const allFoods = computeAllFoods();
+    const results = Object.keys(allFoods).filter((food) => food.toLowerCase().includes(value));
+    results.slice(0, 10).forEach((food) => {
+      const opt = document.createElement("option");
+      opt.value = food;
+      datalist.appendChild(opt);
+    });
+  });
+}
+
+// 16) 初期起動
+updateSummary();
+const expInput = document.getElementById("food-expiry");
+if (expInput) expInput.value = DEFAULT_EXPIRY;
+renderHistory();
+
+// 17) 1日目安（Mifflin-St Jeor + 活動係数）
+const ACTIVITY_FACTOR = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  very: 1.9,
+};
+let targets = { kcal: 0, P: 0, F: 0, C: 0 };
+
+function calcTargets() {
+  const h = parseFloat(document.getElementById("p-height")?.value || 0); // cm
+  const w = parseFloat(document.getElementById("p-weight")?.value || 0); // kg
+  const a = parseFloat(document.getElementById("p-age")?.value || 0);
+  const sex = document.getElementById("p-sex")?.value;
+  const act = document.getElementById("p-activity")?.value;
+  if (!h || !w || !a || !sex || !act) return;
+
+  // 基礎代謝
+  const BMR = sex === "male" ? 10 * w + 6.25 * h - 5 * a + 5 : 10 * w + 6.25 * h - 5 * a - 161;
+  const TDEE = BMR * (ACTIVITY_FACTOR[act] || 1.55);
+
+  // マクロ配分
+  const P_g = 1.6 * w; // たんぱく質 1.6 g/kg
+  const P_kcal = P_g * 4;
+  const F_kcal = TDEE * 0.25; // 脂質 25%
+  const F_g = F_kcal / 9;
+  const C_kcal = Math.max(TDEE - (P_kcal + F_kcal), 0);
+  const C_g = C_kcal / 4;
+
+  targets = { kcal: TDEE, P: P_g, F: F_g, C: C_g };
+  renderTargets();
+  renderRemaining();
+}
+
+function renderTargets() {
+  const el = document.getElementById("target-summary");
+  if (!el) return;
+  el.textContent =
+    `目安: カロリー ${targets.kcal.toFixed(0)} kcal / ` +
+    `たんぱく質 ${targets.P.toFixed(1)} g / ` +
+    `脂質 ${targets.F.toFixed(1)} g / ` +
+    `炭水化物 ${targets.C.toFixed(1)} g`;
+}
+
+function renderRemaining() {
+  const el = document.getElementById("remaining-summary");
+  if (!el) return;
+  const remain = {
+    kcal: Math.max(targets.kcal - total.cal, 0),
+    P: Math.max(targets.P - total.protein, 0),
+    F: Math.max(targets.F - total.fat, 0),
+    C: Math.max(targets.C - total.carb, 0),
+  };
+  el.textContent =
+    `残り: カロリー ${remain.kcal.toFixed(0)} kcal / ` +
+    `たんぱく質 ${remain.P.toFixed(1)} g / ` +
+    `脂質 ${remain.F.toFixed(1)} g / ` +
+    `炭水化物 ${remain.C.toFixed(1)} g`;
+}
+
+// 入力変更で即時再計算
+["p-height", "p-weight", "p-age", "p-sex", "p-activity"].forEach((id) => {
+  const node = document.getElementById(id);
+  if (node) node.addEventListener("input", calcTargets);
+});
+document.addEventListener("DOMContentLoaded", calcTargets);
+
+// 18) カスタム食材フォーム（任意）
+const cfForm = document.getElementById("custom-food-form");
+if (cfForm) {
+  cfForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("cf-name").value.trim();
+    const category = document.getElementById("cf-category").value;
+    const cal = parseFloat(document.getElementById("cf-cal").value);
+    const pro = parseFloat(document.getElementById("cf-pro").value);
+    const fat = parseFloat(document.getElementById("cf-fat").value);
+    const carb = parseFloat(document.getElementById("cf-carb").value);
+
+    if (!name) return alert("食材名を入力してください");
+    if ([cal, pro, fat, carb].some((v) => isNaN(v) || v < 0)) {
+      return alert("栄養は0以上の数値で入力してください（100gあたり）");
+    }
+
+    // 同名の既存食材と衝突を禁止（上書きを許可するなら分岐を変更）
+    const all = computeAllFoods();
+    if (all[name] && !customFoods[name]) {
+      return alert("同名の食材が既にあります（別名にしてください）");
+    }
+
+    customFoods[name] = { category, cal, protein: pro, fat, carb };
+    localStorage.setItem("customFoods", JSON.stringify(customFoods));
+
+    // 現在のタブに合わせて候補更新
+    const activeTab = document.querySelector(".tab.active")?.dataset.category || "all";
+    updateDatalist(activeTab);
+
+    alert(`「${name}」を追加しました！候補から選べます。`);
+    cfForm.reset();
+  });
+}
+
+// 19) 履歴全削除ボタンのリスナー
+const clearBtn = document.getElementById("clear-history");
+if (clearBtn) {
+  clearBtn.addEventListener("click", () => {
+    if (confirm("履歴をすべて削除しますか？")) {
+      localStorage.removeItem("recipeHistory");
+      recipeHistory = [];
+      renderHistory();
+    }
+  });
+}
