@@ -24,6 +24,17 @@ function addHistoryEntry(name) {
   renderHistory();
 }
 
+<button id="clear-history">履歴を全削除</button>
+document.getElementById("clear-history").addEventListener("click", () => {
+  if (confirm("履歴をすべて削除しますか？")) {
+    localStorage.removeItem("recipeHistory");
+    recipeHistory = [];
+    renderHistory();
+  }
+});
+
+
+
 // 3) 食材データ（カテゴリ別）※ここは自分で埋めてOK
 const foodData = {
   "牛もも肉": { cal: 140, protein: 19, fat: 6, carb: 0.1 },
