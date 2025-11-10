@@ -3,6 +3,33 @@
 const DEFAULT_EXPIRY = new Date(Date.now() + 7*24*60*60*1000)
   .toISOString().slice(0,10);
 
+// === 作ったレシピ履歴（localStorage 永続化） ===
+let recipeHistory = JSON.parse(localStorage.getItem("recipeHistory") || "[]");
+
+// 表示
+function renderHistory() {
+  const ul = document.getElementById("recipe-history");
+  if (!ul) return;
+  ul.innerHTML = "";
+  recipeHistory.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.date}｜${item.name}`;
+    ul.appendChild(li);
+  });
+}
+
+// 追加
+function addHistoryEntry(name) {
+  const now = new Date();
+  const date = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,"0")}/${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  recipeHistory.unshift({ name, date });
+  // 直近100件までに制限（任意）
+  recipeHistory = recipeHistory.slice(0, 100);
+  localStorage.setItem("recipeHistory", JSON.stringify(recipeHistory));
+  renderHistory();
+}
+
+
 
 // --------------------
 // 食材データ（カテゴリ別：200品以上）
