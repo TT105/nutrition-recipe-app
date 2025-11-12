@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <title>栄養管理 ＆ レシピ提案アプリ</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="compact">
-
   <h1>栄養管理 ＆ レシピ提案アプリ</h1>
 
-  <!-- 🗂 カテゴリタブ -->
+  <!-- カテゴリタブ -->
   <div class="tabs">
     <button class="tab active" data-category="all">すべて</button>
     <button class="tab" data-category="meat">肉類</button>
@@ -20,7 +19,7 @@
     <button class="tab" data-category="other">その他</button>
   </div>
 
-  <!-- 追加フォーム -->
+  <!-- 食材追加 -->
   <div class="card">
     <form id="food-form">
       <input type="text" id="food-name" list="food-options" placeholder="食材名（例：にんじん）" required />
@@ -46,7 +45,7 @@
     </form>
   </div>
 
-  <!-- 登録済み一覧 -->
+  <!-- 食材リスト＋並び替え -->
   <div class="card">
     <div class="list-header">
       <h2>📋 登録済み食材</h2>
@@ -64,16 +63,15 @@
   <!-- 合計 -->
   <div class="card">
     <h2>🔥 栄養素合計</h2>
-    <p id="summary">…</p>
+    <p id="summary">—</p>
   </div>
 
-  <!-- 1日目安（自動計算） -->
+  <!-- 1日目安 -->
   <div class="card personal-card">
     <div class="personal-header">
       <h2>🎯 あなたの1日目安（自動計算）</h2>
-      <small class="hint">数値を変えると自動で更新されます</small>
+      <small class="hint">数値を変えると自動で更新</small>
     </div>
-
     <form id="personal-form" class="form-grid form-grid--4">
       <label class="form-item">身長(cm)
         <input type="number" id="p-height" min="100" max="230" value="170" required />
@@ -90,18 +88,16 @@
           <option value="female" selected>女性</option>
         </select>
       </label>
-
       <label class="form-item form-item--full">活動量
         <select id="p-activity">
           <option value="sedentary">ほとんど運動しない（デスクワーク中心）</option>
-          <option value="light">軽めの運動を時々する（週1〜2回）</option>
-          <option value="moderate" selected>ふつう（週3〜5回の運動）</option>
-          <option value="active">よく動く（毎日運動・立ち仕事など）</option>
-          <option value="very">かなり活動的（重労働・スポーツ選手）</option>
+          <option value="light">軽めの運動（週1〜2回）</option>
+          <option value="moderate" selected>ふつう（週3〜5回）</option>
+          <option value="active">よく動く（毎日運動/立ち仕事）</option>
+          <option value="very">かなり活動的（重労働/アスリート）</option>
         </select>
       </label>
     </form>
-
     <div class="metrics">
       <p id="target-summary" class="kpi">目安: —</p>
       <p id="remaining-summary" class="kpi muted">残り: —</p>
@@ -114,69 +110,64 @@
     <div id="recipe-list"></div>
   </div>
 
-  <!-- 履歴 -->
+  <!-- カスタム食材の追加 -->
   <div class="card">
-    <h2>📜 作ったレシピ履歴</h2>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <small>直近100件まで保存</small>
-      <button id="clear-history" class="adjust">履歴を全削除</button>
+    <h2>➕ カスタム食材を追加</h2>
+    <form id="custom-food-form" class="form-grid">
+      <label class="form-item">食材名
+        <input type="text" id="cf-name" placeholder="例：ささみ(茹で)" />
+      </label>
+      <label class="form-item">カテゴリ
+        <select id="cf-category">
+          <option value="meat">肉類</option>
+          <option value="fish">魚類</option>
+          <option value="veg" selected>野菜</option>
+          <option value="grain">穀類</option>
+          <option value="other">その他</option>
+        </select>
+      </label>
+      <label class="form-item">kcal/100g
+        <input type="number" id="cf-cal" min="0" step="0.1" />
+      </label>
+      <label class="form-item">P(g)/100g
+        <input type="number" id="cf-pro" min="0" step="0.1" />
+      </label>
+      <label class="form-item">F(g)/100g
+        <input type="number" id="cf-fat" min="0" step="0.1" />
+      </label>
+      <label class="form-item">C(g)/100g
+        <input type="number" id="cf-carb" min="0" step="0.1" />
+      </label>
+      <button type="submit">カスタム食材を追加</button>
+    </form>
+  </div>
+
+  <!-- カスタムレシピの追加 -->
+  <div class="card">
+    <h2>🍳 カスタムレシピを追加</h2>
+    <form id="custom-recipe-form" class="form-grid">
+      <label class="form-item form-item--full">レシピ名
+        <input type="text" id="cr-name" placeholder="例：ささみとブロッコリーの和え物" />
+      </label>
+      <label class="form-item form-item--full">材料（読点/カンマ区切り）
+        <input type="text" id="cr-ings" placeholder="例：ささみ(茹で)、ブロッコリー、しょうゆ" />
+      </label>
+      <button type="submit">カスタムレシピを追加</button>
+    </form>
+    <div class="custom-recipes">
+      <h3>自作レシピ一覧</h3>
+      <ul id="custom-recipe-list"></ul>
+    </div>
+  </div>
+
+  <!-- 作った履歴 -->
+  <div class="card">
+    <div class="list-header">
+      <h2>📜 作ったレシピ履歴</h2>
+      <button id="clear-history" class="danger">履歴を全削除</button>
     </div>
     <ul id="recipe-history"></ul>
   </div>
-
-<!-- 🧪 カスタム食材を登録 -->
-<div class="card">
-  <h2>🧪 カスタム食材</h2>
-  <p class="mini">* 100gあたりの栄養で登録 / 既存名とかぶる場合は別名にしてください</p>
-  <form id="custom-food-form" class="two-col">
-    <label>食材名
-      <input id="cf-name" type="text" placeholder="例：サーロイン（市販）" required>
-    </label>
-    <label>カテゴリ
-      <select id="cf-category">
-        <option value="meat">肉類</option>
-        <option value="fish">魚類</option>
-        <option value="veg">野菜</option>
-        <option value="grain">穀類</option>
-        <option value="other" selected>その他</option>
-      </select>
-    </label>
-    <label>カロリー(kcal/100g)
-      <input id="cf-cal" type="number" step="0.1" min="0" required>
-    </label>
-    <label>たんぱく質(g/100g)
-      <input id="cf-pro" type="number" step="0.1" min="0" required>
-    </label>
-    <label>脂質(g/100g)
-      <input id="cf-fat" type="number" step="0.1" min="0" required>
-    </label>
-    <label>炭水化物(g/100g)
-      <input id="cf-carb" type="number" step="0.1" min="0" required>
-    </label>
-    <button type="submit">食材を追加</button>
-  </form>
-
-  <h3 style="margin-top:12px;">📦 登録済みカスタム食材</h3>
-  <ul id="custom-food-list" class="mini-list"></ul>
-</div>
-
-<!-- 🍳 マイレシピ登録 -->
-<div class="card">
-  <h2>🍳 マイレシピ</h2>
-  <p class="mini">* 材料は「、」や「,」で区切り（例：鶏もも肉、玉ねぎ、しょうゆ）</p>
-  <form id="custom-recipe-form">
-    <label>レシピ名
-      <input id="cr-name" type="text" placeholder="例：サーモンのムニエル（自作）" required>
-    </label>
-    <label>材料（区切り入力）
-      <input id="cr-ings" type="text" placeholder="例：鮭、塩、バター、レモン" required>
-    </label>
-    <button type="submit">レシピを追加</button>
-  </form>
-
-  <h3 style="margin-top:12px;">📚 登録済みマイレシピ</h3>
-  <ul id="custom-recipe-list" class="mini-list"></ul>
-</div>
 
   <script src="script.js"></script>
 </body>
