@@ -1,3 +1,5 @@
+/* ベース */
+* { box-sizing: border-box; }
 body {
   font-family: 'Noto Sans JP', sans-serif;
   background: linear-gradient(135deg, #f6f9ff, #e9f9f1);
@@ -5,384 +7,103 @@ body {
   margin: 0;
   padding: 20px;
 }
+h1 { text-align: center; font-size: 1.8em; margin: 10px 0 16px; color: #2b6a4d; }
 
-h1 {
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 30px;
-  color: #2b6a4d;
-  letter-spacing: 1px;
-}
-
-/* 🗂 カテゴリタブ */
+/* タブ */
 .tabs {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;
 }
-
 .tab {
-  background: #ffffff;
-  border: 1.5px solid #a4d6b3;
-  border-radius: 20px;
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: 0.25s;
-  color: #2b6a4d;
-  font-weight: 600;
+  background: #fff; border: 1.5px solid #a4d6b3; border-radius: 18px;
+  padding: 6px 12px; cursor: pointer; color: #2b6a4d; font-weight: 700; transition: .2s;
 }
-.tab:hover {
-  background: #e0f7ea;
-}
+.tab:hover { background: #e0f7ea; }
 .tab.active {
-  background: linear-gradient(135deg, #5cb85c, #4fa76e);
-  color: white;
-  border: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, #5cb85c, #4fa76e); color: #fff; border: none;
 }
 
-/* 🧾 カード全般 */
+/* カード */
 .card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-  padding: 24px;
-  margin: 20px auto;
-  max-width: 680px;
-  transition: 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  padding: 16px; margin: 12px auto; max-width: 780px;
 }
 
 /* フォーム */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+form { display: flex; flex-direction: column; gap: 10px; }
+input[type="text"], input[type="number"], input[type="date"], select {
+  width: 100%; min-height: 40px; padding: 8px 10px; border: 1.4px solid #d1e8d8; border-radius: 10px;
+  background: #fff; font-size: 0.95em;
 }
-input[type="text"],
-input[type="number"],
-input[type="date"] {
-  width: 100%;
-  padding: 12px;
-  border: 1.5px solid #d1e8d8;
-  border-radius: 10px;
-  font-size: 1em;
-  background: #fdfdfd;
+input:focus, select:focus { outline: none; border-color: #5cb85c; box-shadow: 0 0 6px rgba(92,184,92,.25); }
+button[type="submit"], .danger, .adjust {
+  border: none; border-radius: 10px; min-height: 38px; padding: 8px 12px; font-weight: 700; cursor: pointer;
 }
-input:focus {
-  border-color: #5cb85c;
-  outline: none;
-  box-shadow: 0 0 6px rgba(92,184,92,0.3);
-}
+button[type="submit"] { background: linear-gradient(135deg, #5cb85c, #4fa76e); color: #fff; }
+button[type="submit"]:hover { filter: brightness(1.05); }
+.danger { background: #ff6b6b; color: #fff; }
+.danger:hover { filter: brightness(1.05); }
 
-button[type="submit"] {
-  background: linear-gradient(135deg, #5cb85c, #4fa76e);
-  color: white;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-button[type="submit"]:hover {
-  background: linear-gradient(135deg, #58c06a, #469c63);
-}
-.weight-control {
-  display: flex;
-  flex-direction: column;
-  align-items: center;  /* ← 中央寄せのポイント */
-  gap: 8px;
-}
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;  /* ← 横方向を中央寄せ */
-  gap: 6px;
-  width: 100%;
-}
-.adjust {
-  background: #f0f0f0;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 10px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #555;
-  transition: 0.2s;
-}
-.adjust:hover {
-  background: #d9f5df;
-}
+/* 重量コントロール */
+.weight-control { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.adjust { background: #f3f5f7; color: #333; }
+.adjust:hover { background: #e1f6e7; }
 
-/* 📋 食材リスト */
-#food-list {
-  list-style: none;
-  padding: 0;
-}
+/* 食材リスト */
+#food-list { list-style: none; padding: 0; margin: 0; }
 #food-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 14px;
-  margin-bottom: 6px;
-  border-radius: 12px;
-  background: #f9fff9;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 10px; margin-bottom: 6px; border-radius: 10px; background: #f9fff9;
   border-left: 5px solid #a2e4a2;
-  transition: 0.2s;
 }
-#food-list li:hover {
-  background: #effff2;
-}
-#food-list li.expiring {
-  border-left-color: #ff6b6b;
-  background: #fff5f5;
-}
+#food-list li.expiring { border-left-color: #ff6b6b; background: #fff5f5; }
 .delete-btn {
-  background: #ff6b6b;
-  border: none;
-  color: #fff;
-  border-radius: 8px;
-  padding: 5px 8px;
-  cursor: pointer;
-  font-weight: bold;
+  background: #ff6b6b; color: #fff; border: none; border-radius: 8px; padding: 6px 8px; font-weight: 700; cursor: pointer;
 }
-.delete-btn:hover {
-  background: #e04b4b;
-}
+.delete-btn:hover { filter: brightness(1.05); }
 
-/* 🔥 栄養合計 */
+/* 合計・KPI */
 #summary {
-  background: #e8fff0;
-  border-radius: 10px;
-  padding: 14px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.05em;
-  color: #24633f;
-  border: 1.5px solid #a3dcb1;
+  background: #e8fff0; border: 1.5px solid #a3dcb1; border-radius: 10px;
+  padding: 10px; text-align: center; font-weight: 700; color: #24633f;
 }
+.metrics { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.kpi { background: #f6fff8; border: 1.5px solid #a3dcb1; border-radius: 10px; padding: 10px 12px; font-weight: 700; color: #24633f; }
+.kpi.muted { background: #f3f8ff; border-color: #cfe2f5; color: #274b65; }
 
-/* 🍽 レシピ提案 */
+/* レシピ提案 */
 #recipe-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 12px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;
 }
-#recipe-list div {
-  background: #ffffff;
-  border-left: 6px solid #5bc0de;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 10px 12px;
-  transition: 0.3s;
+.recipe-item {
+  background: #fff; border-left: 6px solid #5bc0de; border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1); padding: 10px 12px;
 }
-#recipe-list div:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+.cook-btn {
+  min-width: 88px; padding: 6px 10px; border: none; border-radius: 8px;
+  background: #5cb85c; color: #fff; cursor: pointer; font-weight: 700;
 }
 
-/* 📜 履歴 */
-#recipe-history {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-#recipe-history li {
-  border-bottom: 1px dashed #ccc;
-  padding: 6px 8px;
-  color: #555;
-}
+/* 履歴 */
+#recipe-history { list-style: none; padding: 0; margin: 0; }
+#recipe-history li { border-bottom: 1px dashed #ccc; padding: 6px 8px; color: #555; }
 
-/* 🌙 メディア対応 */
+/* レイアウト */
+.list-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sort-control select { min-height: 34px; }
+
+/* グリッド */
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(140px, 1fr)); gap: 10px; }
+.form-grid--4 { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 10px; }
+.form-item { display: flex; flex-direction: column; gap: 6px; }
+.form-item--full { grid-column: 1 / -1; }
+
+@media (max-width: 900px) {
+  .form-grid--4 { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+}
 @media (max-width: 600px) {
-  body { padding: 10px; }
-  .card { padding: 16px; }
-  h1 { font-size: 1.6em; }
-  button[type="submit"] { font-size: 0.95em; }
+  body { padding: 12px; }
+  .card { padding: 14px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid--4 { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
 }
-/* === 1日目安カードのレイアウト === */
-.personal-card { padding-top: 20px; }
-.personal-card .personal-header{
-  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-}
-.personal-card .hint{ color:#6c8f7d; font-size:.9em; }
-.form-grid{
-  display:grid;
-  grid-template-columns: repeat(5, minmax(120px,1fr));
-  gap:12px; margin-top:8px;
-}
-.form-item{ display:flex; flex-direction:column; gap:6px; color:#2b6a4d; font-weight:600; }
-.form-item--wide{ grid-column: span 2; }
-#personal-form input,#personal-form select{
-  width:100%; min-height:44px; border:1.5px solid #d1e8d8; border-radius:10px;
-  padding:10px 12px; background:#fdfdfd; font-weight:600;
-}
-#personal-form input:focus,#personal-form select:focus{
-  border-color:#5cb85c; outline:none; box-shadow:0 0 6px rgba(92,184,92,.3);
-}
-.metrics{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.kpi{ background:#f6fff8; border:1.5px solid #a3dcb1; border-radius:12px;
-  padding:10px 12px; font-weight:700; color:#24633f; }
-.kpi.muted{ background:#f3f8ff; border-color:#cfe2f5; color:#274b65; }
-@media (max-width:900px){ .form-grid{ grid-template-columns:repeat(3,minmax(120px,1fr)); }
-  .form-item--wide{ grid-column: span 3; } }
-@media (max-width:600px){ .form-grid{ grid-template-columns:repeat(2,minmax(120px,1fr)); }
-  .form-item--wide{ grid-column: span 2; } }
-
-/* ===== Compact density（全体の余白を圧縮） ===== */
-body.compact { font-size:15px; }
-body.compact h1{ margin:12px 0 16px; font-size:1.5em; }
-body.compact .card{ padding:14px; margin:12px auto; max-width:720px; border-radius:14px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06); }
-body.compact .tabs{ gap:6px; margin-bottom:12px; }
-body.compact .tab{ padding:6px 10px; border-radius:14px; }
-body.compact form{ gap:8px; }
-body.compact input[type="text"],body.compact input[type="number"],
-body.compact input[type="date"],body.compact select{
-  min-height:36px; padding:6px 10px; border-radius:8px;
-}
-body.compact .weight-control{ gap:6px; }
-body.compact .buttons{ gap:4px; }
-body.compact .adjust{ padding:6px 8px; min-height:34px; border-radius:6px; }
-body.compact #food-list li{ padding:8px 10px; margin-bottom:4px; border-radius:10px; }
-body.compact #summary{ padding:10px; font-size:.95em; border-radius:8px; }
-body.compact #recipe-list{ gap:8px; }
-body.compact #recipe-list div{ padding:8px 10px; border-radius:8px; }
-body.compact #recipe-history li{ padding:4px 6px; }
-body.compact .personal-card{ padding-top:12px; }
-body.compact .personal-card .personal-header{ gap:8px; }
-body.compact .form-grid{ gap:8px; grid-template-columns:repeat(5,minmax(110px,1fr)); }
-@media (max-width:900px){ body.compact .form-grid{ grid-template-columns:repeat(3,minmax(110px,1fr)); } }
-@media (max-width:600px){ body.compact .form-grid{ grid-template-columns:repeat(2,minmax(110px,1fr)); } }
-body.compact .kpi{ padding:8px 10px; border-radius:10px; }
-body.compact .metrics{ gap:6px; margin-top:8px; }
-body.compact .form-item{ gap:4px; }
-
-/* ---- 1日目安フォームの行を4列に固定、アクティビティは全幅 ---- */
-.form-grid--4{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(150px, 1fr));
-  gap:10px;
-  align-items:start;
-}
-.form-item{ display:flex; flex-direction:column; gap:4px; margin:0; }
-.form-item--full{ grid-column: 1 / -1; }
-
-#personal-form input,
-#personal-form select{
-  width:100%;
-  min-height:40px;
-  padding:8px 10px;
-  border:1.5px solid #d1e8d8;
-  border-radius:10px;
-  background:#fff;
-  line-height:1.2;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.personal-card{
-  background:#fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
-}
-
-@media (max-width: 900px){
-  .form-grid--4{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
-}
-@media (max-width: 600px){
-  .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
-}
-
-/* === 1日目安フォーム：完全整列パック === */
-.form-grid--4{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(150px, 1fr));
-  gap:12px;                 /* 枠どうしの重なり見えを防ぐ */
-  align-items:end;          /* 底辺でそろえる */
-  margin-bottom:10px;
-}
-.form-item{ display:flex; flex-direction:column; gap:6px; }
-.form-item--full{ grid-column:1 / -1; }     /* 活動量は1行フル幅 */
-
-/* 入力の高さ・線・内側余白を統一（selectのズレも解消） */
-#personal-form input,
-#personal-form select{
-  width:100%;
-  height:44px;              /* ← 高さ固定で完全にそろう */
-  padding:8px 12px;
-  border:1.6px solid #c7e1cf;
-  border-radius:10px;
-  background:#fff;
-  font-size:0.95em;
-  line-height:1.4;
-  box-sizing:border-box;
-}
-
-/* ブラウザ差異吸収：selectのネイティブ装飾を無効化 */
-#personal-form select{
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
-  background-color:#fff;
-  background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'><path d='M2 2l6 6 6-6' fill='none' stroke='%23688f79' stroke-width='2' stroke-linecap='round'/></svg>");
-  background-repeat:no-repeat;
-  background-position: right 10px center;
-  padding-right:34px;       /* 右側に▼スペース */
-}
-
-/* カードの背景と影を軽く（境界が溶けないよう白固定） */
-.personal-card{ background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.06); padding:16px; }
-
-/* ヘッダーのヒント位置（右上に固定） */
-.personal-header{ display:flex; justify-content:space-between; align-items:baseline; }
-.personal-header .hint{ color:#6c8f7d; font-size:.9em; }
-
-/* レスポンシブ：幅が狭い時は3列→2列に自動で折り返し */
-@media (max-width: 900px){
-  .form-grid--4{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
-}
-@media (max-width: 600px){
-  .form-grid--4{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
-}
-
-/* 並び替えコントロール */
-.list-header{
-  display:flex; justify-content:space-between; align-items:center; gap:12px;
-}
-.sort-control select{
-  min-height:34px; padding:4px 10px;
-  border:1.4px solid #d1e8d8; border-radius:8px; background:#fff;
-}
-
-/* === 追加：簡易2列フォーム === */
-.two-col{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap:10px;
-  align-items:end;
-}
-.two-col label{ display:flex; flex-direction:column; gap:6px; }
-
-/* === 追加：小さめ注記とリスト === */
-.mini{ color:#6c8f7d; font-size:.9em; margin:.2em 0 .6em; }
-.mini-list{ list-style:none; padding:0; margin:0; }
-.mini-list li{
-  display:flex; justify-content:space-between; align-items:center; gap:10px;
-  padding:8px 10px; margin:6px 0; border:1px dashed #cfe2f5; border-radius:8px; background:#f9fbff;
-}
-.mini-list button{
-  border:none; border-radius:8px; padding:6px 10px; cursor:pointer; font-weight:700;
-}
-.mini-list .del{ background:#ff6b6b; color:#fff; }
-.mini-list .del:hover{ background:#e04b4b; }
-
-
-
