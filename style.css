@@ -362,4 +362,27 @@ body.compact .form-item{ gap:4px; }
   border:1.4px solid #d1e8d8; border-radius:8px; background:#fff;
 }
 
+/* === 追加：簡易2列フォーム === */
+.two-col{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap:10px;
+  align-items:end;
+}
+.two-col label{ display:flex; flex-direction:column; gap:6px; }
+
+/* === 追加：小さめ注記とリスト === */
+.mini{ color:#6c8f7d; font-size:.9em; margin:.2em 0 .6em; }
+.mini-list{ list-style:none; padding:0; margin:0; }
+.mini-list li{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  padding:8px 10px; margin:6px 0; border:1px dashed #cfe2f5; border-radius:8px; background:#f9fbff;
+}
+.mini-list button{
+  border:none; border-radius:8px; padding:6px 10px; cursor:pointer; font-weight:700;
+}
+.mini-list .del{ background:#ff6b6b; color:#fff; }
+.mini-list .del:hover{ background:#e04b4b; }
+
+
 
