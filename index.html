@@ -124,39 +124,59 @@
     <ul id="recipe-history"></ul>
   </div>
 
-  <!-- （任意）カスタム食材フォーム：置けばJSが動きます -->
-  <!--
-  <div class="card">
-    <h2>🧩 カスタム食材を追加</h2>
-    <form id="custom-food-form" class="form-grid form-grid--4">
-      <label class="form-item">食材名
-        <input id="cf-name" type="text" required />
-      </label>
-      <label class="form-item">カテゴリ
-        <select id="cf-category">
-          <option value="meat">肉類</option>
-          <option value="fish">魚類</option>
-          <option value="veg">野菜</option>
-          <option value="grain">穀類</option>
-          <option value="other" selected>その他</option>
-        </select>
-      </label>
-      <label class="form-item">カロリー(kcal/100g)
-        <input id="cf-cal" type="number" step="0.1" min="0" required />
-      </label>
-      <label class="form-item">たんぱく質(g/100g)
-        <input id="cf-pro" type="number" step="0.1" min="0" required />
-      </label>
-      <label class="form-item">脂質(g/100g)
-        <input id="cf-fat" type="number" step="0.1" min="0" required />
-      </label>
-      <label class="form-item">炭水化物(g/100g)
-        <input id="cf-carb" type="number" step="0.1" min="0" required />
-      </label>
-      <button type="submit" class="form-item--full">カスタム食材を追加</button>
-    </form>
-  </div>
-  -->
+<!-- 🧪 カスタム食材を登録 -->
+<div class="card">
+  <h2>🧪 カスタム食材</h2>
+  <p class="mini">* 100gあたりの栄養で登録 / 既存名とかぶる場合は別名にしてください</p>
+  <form id="custom-food-form" class="two-col">
+    <label>食材名
+      <input id="cf-name" type="text" placeholder="例：サーロイン（市販）" required>
+    </label>
+    <label>カテゴリ
+      <select id="cf-category">
+        <option value="meat">肉類</option>
+        <option value="fish">魚類</option>
+        <option value="veg">野菜</option>
+        <option value="grain">穀類</option>
+        <option value="other" selected>その他</option>
+      </select>
+    </label>
+    <label>カロリー(kcal/100g)
+      <input id="cf-cal" type="number" step="0.1" min="0" required>
+    </label>
+    <label>たんぱく質(g/100g)
+      <input id="cf-pro" type="number" step="0.1" min="0" required>
+    </label>
+    <label>脂質(g/100g)
+      <input id="cf-fat" type="number" step="0.1" min="0" required>
+    </label>
+    <label>炭水化物(g/100g)
+      <input id="cf-carb" type="number" step="0.1" min="0" required>
+    </label>
+    <button type="submit">食材を追加</button>
+  </form>
+
+  <h3 style="margin-top:12px;">📦 登録済みカスタム食材</h3>
+  <ul id="custom-food-list" class="mini-list"></ul>
+</div>
+
+<!-- 🍳 マイレシピ登録 -->
+<div class="card">
+  <h2>🍳 マイレシピ</h2>
+  <p class="mini">* 材料は「、」や「,」で区切り（例：鶏もも肉、玉ねぎ、しょうゆ）</p>
+  <form id="custom-recipe-form">
+    <label>レシピ名
+      <input id="cr-name" type="text" placeholder="例：サーモンのムニエル（自作）" required>
+    </label>
+    <label>材料（区切り入力）
+      <input id="cr-ings" type="text" placeholder="例：鮭、塩、バター、レモン" required>
+    </label>
+    <button type="submit">レシピを追加</button>
+  </form>
+
+  <h3 style="margin-top:12px;">📚 登録済みマイレシピ</h3>
+  <ul id="custom-recipe-list" class="mini-list"></ul>
+</div>
 
   <script src="script.js"></script>
 </body>
