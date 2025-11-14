@@ -33,7 +33,8 @@ function addHistoryEntry(name) {
 
 // 3) 食材データ（カテゴリ構造：最小サンプル）
 const foodData = {
-  "牛もも肉": { cal: 140, protein: 19, fat: 6, carb: 0.1 },
+  meat: {
+    "牛もも肉": { cal: 140, protein: 19, fat: 6, carb: 0.1 },
     "牛バラ肉": { cal: 170, protein: 21, fat: 8, carb: 0.3 },
     "牛肩ロース": { cal: 200, protein: 23, fat: 12, carb: 0.3 },
     "牛ひき肉": { cal: 240, protein: 25, fat: 16, carb: 0.3 },
@@ -292,13 +293,16 @@ const foodData = {
     "ごま油": { cal: 884, protein: 0, fat: 100, carb: 0 },
     "砂糖": { cal: 387, protein: 0, fat: 0, carb: 100 },
     "塩": { cal: 0, protein: 0, fat: 0, carb: 0 },
-    "こしょう": { cal: 0, protein: 0, fat: 0, carb: 0 }
+    "こしょう": { cal: 0, protein: 0, fat: 0, carb: 0 },
+    "小麦粉": { cal: 367, protein: 10, fat: 1.5, carb: 76 },
+ 　 "パン粉": { cal: 384, protein: 14, fat: 5, carb: 70 },
+    "デミグラスソース": { cal: 120, protein: 3, fat: 6, carb: 12 },
+    "ホワイトソース": { cal: 110, protein: 3, fat: 6, carb: 10 },
+    "コチュジャン": { cal: 180, protein: 6, fat: 3, carb: 33 },
   },
 };
 
 // 4) レシピデータ（最小サンプル）
-const recipes = [
-  / レシピデータ（161品）
 const recipes = [
   { name: "牛丼", ingredients: ["牛バラ肉", "玉ねぎ", "ごはん", "しょうゆ", "みりん"] },
   { name: "親子丼", ingredients: ["鶏もも肉", "たまご", "玉ねぎ", "ごはん", "しょうゆ"] },
