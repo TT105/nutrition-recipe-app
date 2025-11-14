@@ -3,7 +3,7 @@ const DEFAULT_EXPIRY = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   .toISOString()
   .slice(0, 10);
 
-// 2) 作ったレシピ履歴（localStorage 永続化）
+// 2) 作ったレシピ履歴
 let recipeHistory = JSON.parse(localStorage.getItem("recipeHistory") || "[]");
 
 function renderHistory() {
@@ -31,7 +31,7 @@ function addHistoryEntry(name) {
   renderHistory();
 }
 
-// 3) 食材データ（カテゴリ構造：最小サンプル）
+// 3) 食材データ
 const foodData = {
   meat: {
     "牛もも肉": { cal: 140, protein: 19, fat: 6, carb: 0.1 },
@@ -301,8 +301,7 @@ const foodData = {
     "コチュジャン": { cal: 180, protein: 6, fat: 3, carb: 33 },
   },
 };
-
-// 4) レシピデータ（最小サンプル）
+// 4) レシピデータ
 const recipes = [
   { name: "牛丼", ingredients: ["牛バラ肉", "玉ねぎ", "ごはん", "しょうゆ", "みりん"] },
   { name: "親子丼", ingredients: ["鶏もも肉", "たまご", "玉ねぎ", "ごはん", "しょうゆ"] },
@@ -519,10 +518,10 @@ const recipes = [
 // 5) 合計栄養
 let total = { cal: 0, protein: 0, fat: 0, carb: 0 };
 
-// 6) カスタム食材（localStorage永続化）
+// 6) カスタム食材
 let customFoods = JSON.parse(localStorage.getItem("customFoods") || "{}");
 
-// 7) カスタムレシピ（localStorage永続化）
+// 7) カスタムレシピ
 let customRecipes = JSON.parse(localStorage.getItem("customRecipes") || "[]");
 
 // === ユーティリティ ===
@@ -851,7 +850,7 @@ if (cfForm) {
       return alert("栄養は0以上の数値で入力してください（100gあたり）");
     }
 
-    // 同名の既存食材と衝突を禁止（上書き許可はここを変える）
+    // 同名の既存食材と衝突を禁止
     const all = computeAllFoods();
     if (all[name] && !customFoods[name]) {
       return alert("同名の食材が既にあります（別名にしてください）");
@@ -912,7 +911,7 @@ if (crForm) {
     const sep = /[、,]/;
     const ingredients = ingsStr.split(sep).map((s) => s.trim()).filter(Boolean);
 
-    // 重複名チェック（既存 + カスタム）
+    // 重複名チェック
     const all = getAllRecipes();
     if (all.some((r) => r.name === name)) {
       return alert("同名のレシピが既にあります（別名にしてください）");
